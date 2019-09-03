@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2019-09-03T05:15:00.520Z</updated>
+    <updated>2019-09-03T05:16:01.026Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -12,8 +12,8 @@
     <rights>All rights reserved 2019, Kylin</rights>
     <entry>
         <title type="html"><![CDATA[矩阵旋转类问题的通用编程解法]]></title>
-        <id>https://zyq2652192993zyq.github.io//post/rotateMatrix</id>
-        <link href="https://zyq2652192993zyq.github.io//post/rotateMatrix">
+        <id>https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa</id>
+        <link href="https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa">
         </link>
         <updated>2019-09-03T03:56:34.000Z</updated>
         <content type="html"><![CDATA[<p>对于这类问题的思考来源于做过的两道题目，一道是LeetCode 48.Rotate Image，另一道是SJTU OJ 4046. 矩阵旋转。先以LeetCode 48.Rotate Image为例，题目原型：</p>
