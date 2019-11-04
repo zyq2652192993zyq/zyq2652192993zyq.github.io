@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2019-09-03T05:16:16.576Z</updated>
+    <updated>2019-11-04T07:57:27.419Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -10,6 +10,405 @@
     <logo>https://zyq2652192993zyq.github.io//images/avatar.png</logo>
     <icon>https://zyq2652192993zyq.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Kylin</rights>
+    <entry>
+        <title type="html"><![CDATA[有环单链表问题总结]]></title>
+        <id>https://zyq2652192993zyq.github.io//post/you-huan-dan-lian-biao-wen-ti-zong-jie</id>
+        <link href="https://zyq2652192993zyq.github.io//post/you-huan-dan-lian-biao-wen-ti-zong-jie">
+        </link>
+        <updated>2019-11-04T07:01:56.000Z</updated>
+        <content type="html"><![CDATA[<p>有环单链表问题总结下来主要有以下几个子问题：</p>
+<ul>
+<li>如何判断一个单链表是否有环？（<code>LeetCode 141.Linked List Cycle</code>）</li>
+<li>单链表有环，如何找到环的入口节点？（<code>LeetCode 142.Linked List Cycle II</code>）</li>
+<li>单链表有环，如何破环？</li>
+<li>单链表有环，输出环的长度。</li>
+<li>无环单链表的中间节点。</li>
+<li>如何判断两个单链表是否相交？（《编程之美》）</li>
+<li>两个无环单链表相交，如何找到交点？</li>
+<li>两个单链表可能有环，如何判断两个单链表是否相交？</li>
+</ul>
+<hr>
+<h1 id="如何判断一个单链表是否有环">如何判断一个单链表是否有环？</h1>
+<p>Given a linked list, determine if it has a cycle in it.</p>
+<p>To represent a cycle in the given linked list, we use an integer <code>pos</code> which represents the position (0-indexed) in the linked list where tail connects to. If <code>pos</code> is <code>-1</code>, then there is no cycle in the linked list.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img"></p>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the first node.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img"></p>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img"></p>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>Can you solve it using <em>O(1)</em> (i.e. constant) memory?</li>
+</ul>
+<hr>
+<p>两个指针，慢指针一次走过一个节点，慢指针一次走过两个节点，有环则快慢指针必相遇。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if (!head) return false;
+        ListNode * slow = head, *fast = head;
+        while (fast &amp;&amp; fast -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            if (slow == fast) {
+                return true；
+            }
+        }
+        
+        return false;
+    }
+};
+</code></pre>
+<h1 id="单链表有环如何找到环的入口节点">单链表有环，如何找到环的入口节点？</h1>
+<p>Given a linked list, return the node where the cycle begins. If there is no cycle, return <code>null</code>.</p>
+<p>To represent a cycle in the given linked list, we use an integer <code>pos</code> which represents the position (0-indexed) in the linked list where tail connects to. If <code>pos</code> is <code>-1</code>, then there is no cycle in the linked list.</p>
+<p><strong>Note:</strong> Do not modify the linked list.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [3,2,0,-4], pos = 1
+Output: tail connects to node index 1
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img"></p>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1,2], pos = 0
+Output: tail connects to node index 0
+Explanation: There is a cycle in the linked list, where tail connects to the first node.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img"></p>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: head = [1], pos = -1
+Output: no cycle
+Explanation: There is no cycle in the linked list.
+</code></pre>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img"></p>
+<p><strong>Follow-up</strong>:</p>
+<ul>
+<li>Can you solve it without using extra space?</li>
+</ul>
+<hr>
+<p>设从头节点到环的起点距离为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span>，环的起点到第一次相遇的节点之间的距离为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>，第一次相遇节点到尾端距离为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>，显然<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">b+c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>为环一圈的周长。第一次相遇时，快指针走过的距离：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a+b+c+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>，慢指针走过的距离是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>，因为快指针速度是慢指针的两倍，所以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>b</mi><mo>=</mo><mn>2</mn><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">a+b+c+b = 2(a+b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span>，则可知<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>=</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a=c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>，</p>
+<p>所以思路是如果存在环，那么第一次相遇后，其中一个指针回到起始节点，另一个指针继续走，两个指针每次移动的距离都是1，那么第二次相遇的时候走过的距离就都是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>了，所以返回这个节点即可。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if (!head) return head;
+        
+        ListNode * slow = head, *fast = head;
+        while (fast &amp;&amp; fast -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            if (slow == fast) break;
+        }
+        if (!fast || !fast -&gt; next) return nullptr;
+        
+        slow = head;
+        while (slow !=fast) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next;
+        }
+        
+        return slow;
+    }
+};
+</code></pre>
+<h1 id="单链表有环如何破环">单链表有环，如何破环？</h1>
+<p>对单链表中寻找环的入口点程序稍加改动即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    void breakCycle(ListNode *head) {
+        ListNode * slow = head, *fast = head;
+        while (slow != fast) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+        }
+     
+        slow = head;
+        while (slow -&gt; next != fast -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next;
+        }
+        fast -&gt; next = nullptr;
+    }
+};
+</code></pre>
+<h1 id="单链表有环输出环的长度">单链表有环，输出环的长度</h1>
+<p>思路和上面是一样的，只不过多了个计数器，计数器始终绑定在慢指针上，每走一步就+1，两个指针第一次相遇慢指针走过的步数就是环的长度。因为环的长度是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">b+c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>，慢指针走过的是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>，因为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>=</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a=c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>，所以可得。如果无环则返回-1.</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int cycleLength(ListNode *head){
+        if (!head) return -1;
+        int cnt = 0;
+        ListNode * dummy = new ListNode(0);
+        dummy -&gt; next = head;
+        ListNode *slow = dummy, *fast = dummy;
+        while (fast -&gt; next &amp;&amp; fast -&gt; next -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            ++cnt;
+            if (slow == fast) break;
+        }
+        if (!fast -&gt; next || !fast -&gt; next -&gt; next) return -1;
+        
+        return cnt;
+    }
+};
+</code></pre>
+<h1 id="无环单链表的中间节点">无环单链表的中间节点</h1>
+<p>一个无环单链表，返回链表的中间节点，如果长度为偶数，返回两个节点的任意一个。</p>
+<p>仍然是快慢指针思路，快指针走两步，慢指针走一步，那么快指针走到末尾，慢指针刚好走到一半。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    ListNode *middleNode(ListNode *head){
+        if (!head) return nullptr;
+        
+        ListNode *slow = head, *fast = head;
+        while (fast -&gt; next &amp;&amp; fast -&gt; next -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+        }
+        
+        return slow;
+    }
+};
+</code></pre>
+<h1 id="如何判断两个单链表是否相交">如何判断两个单链表是否相交？</h1>
+<p>首先假设两个单链表都无环，相交情况如下图：</p>
+<p><img src="https://i.loli.net/2019/11/04/pW1INy5RGhoHcwM.png" alt=""></p>
+<p>有两种思路：</p>
+<p>一种是根据上面题目很自然想到的：先遍历第一个链表，由于无环，肯定可以访问到最后，然后把最后节点和自己的头节点连起来形成一个环，然后去访问第二个链表，如果两个链表相交，那么第二个链表就会形成环，否则不会，所以转化成了链表找环的问题，如果想输出交点思路同上。</p>
+<p>第二种方法较第一种实施起来更为简单，因为第一种还需要去改动链表，最后记得恢复原状。不妨换一种思路，如果两个链表相交，那么一定有公共节点，在哪个位置不清楚，但是可以知道相交的链表最后一个节点一定是公共节点。所以访问第一个链表，记录最后一个节点，再访问第二个链表，如果第二个链表访问到最后也没有找到与记录节点相同的节点，那么没有相交，否则相交。</p>
+<p>这里实现第二种方案：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool isIntersected(ListNode *head1, ListNode * head2){
+        if (!head1 || !head2) return false;
+        
+        ListNode * prob1 = head1;
+        while (prob1 -&gt; next)
+            prob1 = prob1 -&gt; next;
+        ListNode * prob2 = head2;
+        while (prob2 -&gt; next)
+            prob2 = prob2 -&gt; next;
+        
+        if (prob1 == prob2) return true;
+        
+        return false;
+    }
+};
+</code></pre>
+<h1 id="两个无环单链表相交如何找到交点">两个无环单链表相交，如何找到交点？</h1>
+<p>一种思路是先遍历第一个链表，由于无环，肯定可以访问到最后，然后把最后节点和自己的头节点连起来形成一个环，然后去访问第二个链表，第二个链表就会形成环，问题转化成了一个单链表找环入口点问题，和<code>LeeCode 142</code>就是一个问题了。</p>
+<p>第二种思路是由于无环，两个链表从头开始访问一定可以到尾端。首先判断是否相交，相交的情况我们采用一个计数器记录走过的长度，假设短链为链1，长链为链2，设公共长度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>，则链1的长度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mn>1</mn><mo>=</mo><mi>l</mi><mn>1</mn><mo>+</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">s1=l1 + l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>，链2的长度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mn>2</mn><mo>=</mo><mi>l</mi><mn>2</mn><mo>+</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">s2 = l2+l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>，差值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mn>2</mn><mo>−</mo><mi>l</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">l2-l1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">1</span></span></span></span>，那么从头开始访问，让长链先走<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mn>2</mn><mo>−</mo><mi>l</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">l2-l1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">1</span></span></span></span>步，然后两个链的指针同时移动，那么第一次相交就是交点。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool isIntersected(ListNode *head1, ListNode * head2){
+        if (!head1 || !head2) return false;
+        
+        ListNode * prob1 = head1;
+        while (prob1 -&gt; next)
+            prob1 = prob1 -&gt; next;
+        ListNode * prob2 = head2;
+        while (prob2 -&gt; next)
+            prob2 = prob2 -&gt; next;
+        
+        if (prob1 == prob2) return true;
+        
+        return false;
+    }
+    
+    ListNode * findIntersected(ListNode *head1, ListNode * head2){
+        if (!isIntersected(head1, head2)) return nullptr;
+        
+        int s1 = 1, s2 = 1; //如果为0则比真实长度少1，也不影响差值计算结果
+        ListNode * prob1 = head1; 
+        while (prob1 -&gt; next){
+            prob1 = prob1 -&gt; next;
+            ++s1;
+        }
+        ListNode * prob2 = head2;
+        while (prob2 -&gt; next){
+            prob2 = prob2 -&gt; next;
+            ++s2;
+        }
+        
+        int delta = 0;
+        bool flag = true; //记录哪个链是长链
+        if (s1 &gt; s2){
+            delta = s1 - s2;
+        } 
+        else{
+            delta = s2 - s1;
+            flag = false;
+        } 
+        
+        prob1 = head1;
+        prob2 = head2;
+        if (flag){ //链1较长
+            s1 = 0;
+            while (s1 != delta){
+                prob1 = prob1 -&gt; next;
+                ++s1;
+            }
+            while (prob1 != prob2){
+                prob1 = prob1 -&gt; next;
+                prob2 = prob2 -&gt; next;
+            }
+            return prob1;
+        }
+        
+        s2 = 0;
+        while (s2 != delta){
+            prob2 = prob2 -&gt; next;
+            ++s2;
+        } 
+        while (prob1 != prob2){
+            prob1 = prob1 -&gt; next;
+            prob2 = prob2 -&gt; next;
+        }
+        return prob1;
+    }
+};
+</code></pre>
+<h1 id="两个单链表可能有环如何判断两个单链表是否相交">两个单链表可能有环，如何判断两个单链表是否相交？</h1>
+<p>两个单链表可能有环，可分为4类（两个链表标记为链1和链2）：</p>
+<ul>
+<li>链1有环，链2有环</li>
+<li>链1有环，链2无环</li>
+<li>链1无环，链2有环</li>
+<li>链1无环，链2无环</li>
+</ul>
+<p>最简单的情况是两个链中一个有环，一个无环，这种情况下必然无交点。</p>
+<p>两个无环的链表思路和“判断无环链表是否相交一样了”，判断尾指针即可。</p>
+<p>两个单链表有环不相交，显然环不会有重合的部分。<strong>两个链都有环且相交</strong>，分为两种情形如下图，但是一个共同点是，环是两个单链表的公共部分。</p>
+<p><img src="https://i.loli.net/2019/11/04/EOATYwd2BqiKDcg.png" alt=""></p>
+<p>很明显，区别在于环的入口不同。所以思路是：</p>
+<ul>
+<li>先写一个判断单链表是否有环的程序，分别判断两个单链表是否有环。</li>
+<li>一个有环，一个无环，则不相交。</li>
+<li>两个无环，那么应用判断尾节点的方法。</li>
+<li>两个都有环，预先得到两个环的入口节点和环的长度（记为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>），如果环的长度不一致，则不相交。如果环的长度一致，考虑入口节点是否相同，如果相同，那么则相交。如果入口节点不同，设置一个慢指针在第一个入口，一个快指针（每次走两步）在第二个入口，两个指针如果在同一个环里面且入口点不同，相遇时慢指针最多走<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">s/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord">/</span><span class="mord">2</span></span></span></span>步。所以可以增加一个计数器，如果慢指针走了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">s/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord">/</span><span class="mord">2</span></span></span></span>步还是没有和快指针相遇，那么就是属于不同的环，否则就相交。</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    //计算单链表环的长度
+    int cycleLength(ListNode *head){ 
+        if (!head) return -1;
+        int cnt = 0;
+        ListNode * dummy = new ListNode(0);
+        dummy -&gt; next = head;
+        ListNode *slow = dummy, *fast = dummy;
+        while (fast -&gt; next &amp;&amp; fast -&gt; next -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            ++cnt;
+            if (slow == fast) break;
+        }
+        if (!fast -&gt; next || !fast -&gt; next -&gt; next) return -1;
+        
+        return cnt;
+    }
+    
+    //判断单链表是否有环，并返回环的入口节点
+    ListNode *detectCycle(ListNode *head) {
+        if (!head) return head;
+        
+        ListNode * slow = head, *fast = head;
+        while (fast &amp;&amp; fast -&gt; next) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            if (slow == fast) break;
+        }
+        if (!fast || !fast -&gt; next) return nullptr;
+        
+        slow = head;
+        while (slow !=fast) {
+            slow = slow -&gt; next;
+            fast = fast -&gt; next;
+        }
+        
+        return slow;
+    }
+    
+    //判断两个无环单链表是否有交点
+    bool isIntersected(ListNode *head1, ListNode * head2){
+        if (!head1 || !head2) return false;
+        
+        ListNode * prob1 = head1;
+        while (prob1 -&gt; next)
+            prob1 = prob1 -&gt; next;
+        ListNode * prob2 = head2;
+        while (prob2 -&gt; next)
+            prob2 = prob2 -&gt; next;
+        
+        if (prob1 == prob2) return true;
+        
+        return false;
+    }
+    
+    //判断两个有环单链表是否有交点
+    bool isCycleListIntersected(ListNode *head1, ListNode * head2){
+        if (!head1 || !head2) return false;
+        
+        //得到两个单链表的环的长度和环入口节点
+        ListNode * enterPoint1 = detectCycle(head1), * enterPoint2 = detectCycle(head2);
+        int perimeter1 = cycleLength(head1), perimeter2 = cycleLength(head2);
+        
+        //一个有环，一个无环必不相交
+        if ( (!enterPoint1 &amp;&amp; enterPoint2) || (enterPoint1 &amp;&amp; !enterPoint2) ) return false;
+        
+        //两个无环，尾节点判断法
+        if (perimeter1 &lt; 0 &amp;&amp; perimeter2 &lt; 0) return isIntersected(head1, head2);
+        
+        //两个都有环，先判断环的长度是否一致
+        if (perimeter1 != perimeter2) return false;
+        
+        //判断入口节点是否相同，相同则相交
+        if (enterPoint1 == enterPoint2) return true;
+        
+        //环长度相同但是入口节点不同
+        int cnt = 0; 
+        ListNode * slow = enterPoint1, *fast = enterPoint2;
+        while (cnt != perimeter1 / 2 + 1){
+            slow = slow -&gt; next;
+            fast = fast -&gt; next -&gt; next;
+            if (slow == fast) return true;
+        }
+        
+    	return false;
+    }
+};
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[矩阵旋转类问题的通用编程解法]]></title>
         <id>https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa</id>
