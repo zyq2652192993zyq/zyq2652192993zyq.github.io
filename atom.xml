@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2019-11-04T07:59:00.852Z</updated>
+    <updated>2019-11-04T09:17:13.995Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -200,6 +200,7 @@ public:
     }
 };
 </code></pre>
+<p>这个方法的用处在<code>LeetCode 143.Reorder List</code>体现出来。</p>
 <h1 id="如何判断两个单链表是否相交">如何判断两个单链表是否相交？</h1>
 <p>首先假设两个单链表都无环，相交情况如下图：</p>
 <p><img src="https://i.loli.net/2019/11/04/pW1INy5RGhoHcwM.png" alt=""></p>
