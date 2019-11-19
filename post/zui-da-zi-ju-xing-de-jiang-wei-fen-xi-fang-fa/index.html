@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1573459774058">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1574180754371">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
-        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1573459774058" class="site-logo">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1574180754371" class="site-logo">
         <h1 class="site-title">Kylin</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -349,8 +349,12 @@ int maxSubArray(vector&lt;int&gt; &amp; nums)
     if (n == 0) return INF;
 
     int res = -INF, tmpSum = 0;
-    for (auto e : nums) {
-        tmpSum = max(tmpSum + e, e);
+    // for (auto e : nums) {
+    //     tmpSum = max(tmpSum + e, e);
+    //     res = max(res, tmpSum);
+    // }
+    for (int i = 0; i &lt; n; ++i) {
+        tmpSum = max(tmpSum + nums[i], nums[i]);
         res = max(res, tmpSum);
     }
 
@@ -358,10 +362,9 @@ int maxSubArray(vector&lt;int&gt; &amp; nums)
 }
 
 
-int maxSubMatrix(vector&lt;vector&lt;int&gt;&gt; &amp; nums)
+int maxSubMatrix(vector&lt;vector&lt;int&gt; &gt; &amp; nums)
 {
     int m = nums.size();
-    if (m == 0) return INF;
     int res = -INF;
     int n = nums[0].size();
 
@@ -383,22 +386,23 @@ int maxSubMatrix(vector&lt;vector&lt;int&gt;&gt; &amp; nums)
 int main()
 {
     std::ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(NULL);
 
     int n;
     cin &gt;&gt; n;
-    vector&lt;vector&lt;int&gt;&gt; matrix(n, vector&lt;int&gt;(n, 0));
+    vector&lt;vector&lt;int&gt; &gt; matrix(n, vector&lt;int&gt;(n, 0));
     for (int i = 0; i &lt; n; ++i) {
         for (int j = 0; j &lt; n; ++j) {
             cin &gt;&gt; matrix[i][j];
         }
     }
 
-    cout &lt;&lt; maxSubMatrix(matrix);
+    cout &lt;&lt; maxSubMatrix(matrix) &lt;&lt; endl;
 
     return 0;
 }
 </code></pre>
+<p>这道题目如果把上面代码直接粘过去会<code>wrong answer</code>，但是放到<a href="http://poj.org/problem?id=1050">POJ 1050-To the Max</a>就会通过，注意POJ不支持C++11的许多新特性。</p>
 <h1 id="二维数组下不超过k的最大子矩形和本题">二维数组下不超过K的最大子矩形和（本题）</h1>
 <p>如果上面的方法掌握了，那么会发现到这里只需要去把<code>res = max(res, maxSubArray(subMax));</code>改为<code>res = max(res, maxSubArray(subMax, k));</code>即可。代码见最下方。</p>
 <p>那么扩展一下，如果要找小于k的最大子矩形和呢？改动的也只有两个地方，一个是在时间复杂度选择那里，不能出现等于的情况；另一个就是传入的<code>maxSubArray</code>函数的形式应该根据第二大类的讨论来进行相应修改。</p>
