@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2019-11-19T16:25:59.437Z</updated>
+    <updated>2019-12-15T07:18:13.202Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -10,6 +10,416 @@
     <logo>https://zyq2652192993zyq.github.io//images/avatar.png</logo>
     <icon>https://zyq2652192993zyq.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Kylin</rights>
+    <entry>
+        <title type="html"><![CDATA[高精度问题]]></title>
+        <id>https://zyq2652192993zyq.github.io//post/gao-jing-du-wen-ti</id>
+        <link href="https://zyq2652192993zyq.github.io//post/gao-jing-du-wen-ti">
+        </link>
+        <updated>2019-12-15T06:44:52.000Z</updated>
+        <content type="html"><![CDATA[<p>高精度问题主要包含以下几个子问题：</p>
+<ul>
+<li>高精度加法</li>
+<li>高精度减法</li>
+<li>高精度乘法
+<ul>
+<li>高精度 x 单精度</li>
+<li>高精度 x 高精度</li>
+</ul>
+</li>
+<li>高精度除法
+<ul>
+<li>高精度 / 单精度</li>
+<li>高精度 / 高精度</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="高精度加法">高精度加法</h1>
+<p>既可以用链表来计算，也可以用数组来计算，链表的方法在<a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge/blob/master/SJTU-OJ/1202.%20bigint.md">SJTU 1202 bigint</a>的里有写到，也可以参考我在<a href="https://github.com/zyq2652192993zyq/LeetCode/blob/master/Linked%20List/2.Add%20Two%20Numbers.md">LeetCode 2.Add Two Numbers</a>的思路。</p>
+<p>思路主要是利用数组模拟，将数字翻转处理来模拟竖式加法，需要注意的细节是最高位可能存在进位，所以数组的长度会比最长的数字多出一位。特殊点就是<code>0+0</code>的情况以及出现前导0的情况，如<code>07</code>，可以把这种特殊情况放到输出里解决，因为数组多开了一位，所以如果多出的这一位不是0，那么结果也不可能是0。即使最终结果等于0，但是因为我们跳过了第一位，所以还是可以保证有效输出。</p>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+vector&lt;char&gt; bigNumPlus(vector&lt;char&gt; &amp; num1, vector&lt;char&gt; &amp; num2)
+{
+	int extra = 0;
+	for (size_t i = 0; i &lt; num1.size(); ++i) {
+		int sum = (num1[i] - '0') + (num2[i] - '0') + extra;
+		extra = sum / 10;
+		num1[i] = '0' + sum % 10;
+	}
+	if (extra &amp; 1) num1[num1.size() - 1] = '1';
+	reverse(num1.begin(), num1.end());
+
+	return num1;
+}
+
+template &lt;typename T&gt;
+ostream &amp; operator&lt;&lt;(ostream &amp; os, const vector&lt;T&gt; &amp; v)
+{
+	size_t i = 0;
+	if (v[0] == '0') i = 1; 
+	for ( ; i &lt; v.size(); ++i) {
+		os &lt;&lt; v[i];
+	}
+
+	return os;
+}
+
+int main()
+{
+	string str1, str2;
+	cin &gt;&gt; str1 &gt;&gt; str2;
+	int length = max(str1.size(), str2.size()) + 1; //可能存在进位，所以多留出一位
+
+	vector&lt;char&gt; num1(length, '0'), num2(length, '0');
+	for (size_t i = 0; i &lt; str1.size(); ++i) {
+		num1[str1.size() - 1 - i] = str1[i];
+	}
+
+	for (size_t i = 0; i &lt; str2.size(); ++i)
+		num2[str2.size() - 1 - i] = str2[i];
+
+	cout &lt;&lt; bigNumPlus(num1, num2) &lt;&lt; endl;
+
+	return 0;
+}
+</code></pre>
+<ul>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/HDU-1002%20A%20%2B%20B%20Problem%202(%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%8A%A0%E6%B3%95).md">HDU 1002</a></li>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/HDU-1002%20A%20%2B%20B%20Problem%202(%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%8A%A0%E6%B3%95).md">HDU 1002</a></li>
+<li><a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge/blob/master/SJTU-OJ/1202.%20bigint.md">SJTU OJ 1202</a></li>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/%E6%B4%9B%E8%B0%B7-P1601%20A%2BB%20Problem%EF%BC%88%E9%AB%98%E7%B2%BE%EF%BC%89.md">洛谷-P1601 A+B problem</a></li>
+</ul>
+<h1 id="高精度减法">高精度减法</h1>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+vector&lt;int&gt; sub(const vector&lt;int&gt; &amp; num1, const vector&lt;int&gt; &amp; num2)
+{
+	int length = num1.size();
+	vector&lt;int&gt; res(length, 0);
+
+	for (int i = 0; i &lt; length - 1; ++i) {
+		res[i] += num1[i] - num2[i];
+		if (res[i] &lt; 0) {
+			res[i + 1] -= 1;
+			res[i] += 10;
+		}
+	}
+	res[length - 1] += num1[length - 1] - num2[length - 1];
+	reverse(res.begin(), res.end());
+
+	return res;
+}
+
+template &lt;typename T&gt;
+ostream &amp; operator&lt;&lt;(ostream &amp; os, const vector&lt;T&gt; &amp; v)
+{
+	size_t i = 0;
+    
+	while (v[i] == 0) ++i;
+	for ( ; i &lt; v.size(); ++i)
+		os &lt;&lt; v[i];
+
+	return os;
+}
+
+
+int main()
+{
+	std::ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+
+	string str1, str2;
+	cin &gt;&gt; str1 &gt;&gt; str2;
+
+	if (str1 == str2) cout &lt;&lt; 0;
+	else {
+		bool flag = true;
+		if (str1.size() &lt; str2.size() || (str1.size() == str2.size() &amp;&amp; str1 &lt; str2)) {
+			std::swap(str1, str2);
+			flag = false;
+		} 
+
+		int length = max(str1.size(), str2.size());
+		vector&lt;int&gt; num1(length, 0), num2(length, 0);
+
+		for (size_t i = 0; i &lt; str1.size(); ++i) num1[str1.size() - 1 - i] = str1[i] - '0';
+		for (size_t i = 0; i &lt; str2.size(); ++i) num2[str2.size() - 1 - i] = str2[i] - '0';
+
+		if (flag) cout &lt;&lt; sub(num1, num2);
+		else cout &lt;&lt; &quot;-&quot; &lt;&lt; sub(num1, num2);
+	}
+
+	return 0;
+}
+</code></pre>
+<ul>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/%E6%B4%9B%E8%B0%B7-P2142%20%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%87%8F%E6%B3%95.md">洛谷-P2142 高精度减法</a></li>
+</ul>
+<p>这道题看上去和高精度加法类似，但是却布满坑点：</p>
+<ul>
+<li>两个字符串相减出现前导0，需要除去比如100-99</li>
+<li>前导0并不是所有都需要除去，比如0-0或100-100</li>
+<li>两个数相减可能为负，需要在结果前加负号，比较两个数的大小不能直接写成<code>str1 &lt; str2</code>，因为比如38和370，按照字符串的比较规则是<code>38 &gt; 370</code>，所以需要分为位数不同和位数相同两种情况计算。</li>
+</ul>
+<h1 id="高精度乘法">高精度乘法</h1>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+vector&lt;int&gt; multiply(const vector&lt;int&gt; &amp; num1, const vector&lt;int&gt; &amp; num2, int cnt)
+{
+	int length = num1.size();
+	vector&lt;int&gt; res(length, 0);
+
+	for (int i = 0; i &lt; cnt; ++i) {
+		for (size_t j = 0; j &lt; num1.size(); ++j) {
+			res[i + j] += num2[i] * num1[j];
+		}
+	}
+
+	for (size_t i = 0; i &lt; res.size() - 1; ++i) {
+		if (res[i] &gt;= 10) {
+			res[i + 1] += res[i] / 10;
+			res[i] = res[i] % 10;
+		}
+	}
+	reverse(res.begin(), res.end());
+
+	return res;
+}
+
+template &lt;typename T&gt;
+ostream &amp; operator&lt;&lt;(ostream &amp; os, const vector&lt;T&gt; &amp; v)
+{
+	size_t i = 0;
+    
+	while (v[i] == 0) ++i; //处理前导0
+	for ( ; i &lt; v.size(); ++i)
+		os &lt;&lt; v[i];
+
+	return os;
+}
+
+
+int main()
+{
+	std::ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+
+	string str1, str2;
+	cin &gt;&gt; str1 &gt;&gt; str2;
+
+	if (str1 == &quot;0&quot; || str2 == &quot;0&quot;) cout &lt;&lt; 0;
+	else if (str1 == &quot;1&quot;) cout &lt;&lt; str2;
+	else if (str2 == &quot;1&quot;) cout &lt;&lt; str1;
+	else {
+		if (str1.size() &lt; str2.size()) std::swap(str1, str2);
+		int length = 2 * max(str1.size(), str2.size());
+		vector&lt;int&gt; num1(length, 0), num2(length, 0);
+		int cnt = str2.size();
+
+		for (size_t i = 0; i &lt; str1.size(); ++i) num1[str1.size() - 1 - i] = str1[i] - '0';
+		for (size_t i = 0; i &lt; str2.size(); ++i) num2[str2.size() - 1 - i] = str2[i] - '0';
+		cout &lt;&lt; multiply(num1, num2, cnt);
+	}	
+
+	return 0;
+}
+</code></pre>
+<p>这里模拟竖式乘法的时候，始终保持利用数位最小的数的每一位去乘上数位较大的数，最后统一进位。相当于OI Wiki里面“高精度——单精度”的思想，时间复杂度从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>优化到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>m</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo separator="true">,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n,m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span></span></span></span>分别是字符串的长度。</p>
+<p>典型题目：</p>
+<ul>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/%E6%B4%9B%E8%B0%B7-P1303%20AB%20Problem.md">洛谷-P1303 A*B Problem</a></li>
+</ul>
+<p>需要考虑的问题：</p>
+<ul>
+<li>其中一个数是0</li>
+<li>其中一个数是1</li>
+<li>考虑前导0</li>
+<li>两个数中有一个负数</li>
+<li>两个数中有两个负数</li>
+</ul>
+<p>最后两点在题目里是不需要考虑的，因为题目默认都是给定正数。即使是负数，只需要增加变量来记录符号，影响不大。</p>
+<p>高精度乘法可以涉及的知识点：</p>
+<ul>
+<li>快速傅里叶变换： 洛谷-P1919</li>
+<li>Karatsuba乘法</li>
+</ul>
+<h1 id="高精度除法">高精度除法</h1>
+<p>主要包含两种方法：</p>
+<ul>
+<li>高精度除以单精度</li>
+<li>高精度除以高精度</li>
+</ul>
+<pre><code class="language-c++">//高精度除以单精度
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+	string str;
+	long long num;
+	cin &gt;&gt; str &gt;&gt; num;
+
+	if (str == &quot;0&quot;) cout &lt;&lt; 0;
+    else if (num == 1) cout &lt;&lt; str;
+	else {
+		string res;
+		long long extra = 0;
+		for (size_t i = 0; i &lt; str.size(); ++i) {
+			long long tmp = extra * 10 + (str[i] - '0');
+			res += to_string(tmp / num);
+			extra = tmp % num;
+		}
+		int pos = 0;
+		while (res[pos] == '0') ++pos;
+		res = res.substr(pos);
+		cout &lt;&lt; res;
+	}
+	
+	return 0;
+}
+</code></pre>
+<pre><code class="language-c++">//高精度除以高精度
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+struct bigNum {
+	vector&lt;int&gt; num;
+	int len;
+
+	bigNum(int n): len(n) {num.assign(n, 0);}
+};
+
+bool compare(const bigNum &amp; a, const bigNum &amp; b)
+{
+	if (a.len &lt; b.len) return false;
+	if (a.len &gt; b.len) return true;
+	for (int i = a.len - 1; i &gt;= 0; --i) {
+		if (a.num[i] &lt; b.num[i]) return false;
+		else if (a.num[i] &gt; b.num[i]) return true;
+	}
+
+	return true; //两个数完全一致
+}
+
+void subtraction(bigNum &amp; a, const bigNum &amp; minus)
+{
+	for (int i = 0; i &lt; minus.len; ++i) {
+		a.num[i] -= minus.num[i];
+		if (a.num[i] &lt; 0) {
+			--a.num[i + 1];
+			a.num[i] += 10;
+		}
+	}
+
+	for (int i = a.len - 1; i &gt;= 0; --i) {
+		if (a.num[i] != 0) {
+			a.len = i + 1; //更新被减数的长度
+			return;
+		}
+	}
+	a.len = 0; //恰好整除，a所有位都是0
+}
+
+vector&lt;int&gt; divide(bigNum &amp; a, const bigNum &amp; b)
+{
+	vector&lt;int&gt; res(a.len - b.len + 1, 0);
+	for (int i = res.size() - 1; i &gt;= 0; --i) {
+		if (a.len == 0) break;
+		bigNum minus(b.len + i); //构造被减数
+		for (int j = b.len - 1; j &gt;= 0; --j) minus.num[j + i] = b.num[j];
+		
+		while (compare(a, minus)) {
+			subtraction(a, minus);
+			++res[i];
+		}
+	}
+	reverse(res.begin(), res.end());
+
+
+	return res;
+}
+
+ostream &amp; operator&lt;&lt;(ostream &amp; os, const vector&lt;int&gt; &amp; v)
+{
+	size_t i = 0;
+	while (v[i] == 0) ++i;
+	for ( ; i &lt; v.size(); ++i) os &lt;&lt; v[i];
+
+	return os;
+}
+
+int main()
+{
+	std::ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+
+	string str1, str2;
+	cin &gt;&gt; str1 &gt;&gt; str2;
+	
+
+	if (str1 == &quot;0&quot;) cout &lt;&lt; 0;
+	else if (str2 == &quot;1&quot;) cout &lt;&lt; str1;
+	else if (str1.size() &lt; str2.size() || (str1.size() == str2.size() &amp;&amp; str1 &lt; str2)) cout &lt;&lt; 0;
+	else if (str1 == str2) cout &lt;&lt; 1;
+	else {
+		int length = max(str1.size(), str2.size());
+		bigNum a(length), b(length);
+		b.len = str2.size();
+		//倒序处理，便于后续大数减法的运算
+		for (size_t i = 0; i &lt; str1.size(); ++i) a.num[str1.size() - 1 - i] = str1[i] - '0';
+		for (size_t i = 0; i &lt; str2.size(); ++i) b.num[str2.size() - 1 - i] = str2[i] - '0';
+
+		cout &lt;&lt; divide(a, b);
+	}
+	
+	return 0;
+}
+</code></pre>
+<p>高精度除以高精度的思想其实是高精度减法，可以根据被除数和除数来得出商的最大位数，然后每次在除数后面添加0，构成一个减数，然后去模拟竖式除法。</p>
+<pre><code>//输入的两个大数分别位a， b，长度分别是M和N，计算12345/45
+//商的最大位数i=M-N+1，即4，设计一个 临时减数，减数后面补齐i-1个0，再进行减法
+i=4     12345 &lt; 45000   可以减0个   res[4]=0      减后A：12345
+i=3     12345 &lt; 4500    可以减2个   res[3]=2      减后A：3345
+i=2     3345  &lt; 450     可以减7个   res[2]=7      减后A：195
+i=1     195   &lt; 45      可以减4个   res[1]=4      减后A：15
+
+//res[4]=0，故商的有效位数res[0]--，为3
+//结果  商为274，余数15
+</code></pre>
+<p>相当于对竖式除法的模拟。</p>
+<p>典型题目：</p>
+<ul>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/%E6%B4%9B%E8%B0%B7-P1480%20A%E9%99%A4B%20Problem.md">洛谷-P1480 A/B Problem （高精度除以单精度）</a></li>
+<li><a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/blob/master/Problem%20Solution/%E6%B4%9B%E8%B0%B7-P2005%20AB%20Problem%20II.md">洛谷-P2005 A/B Problem 2 (高精度除以高精度)</a></li>
+<li><a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge/blob/master/SJTU-OJ/1016.%20%E9%AB%98%E7%B2%BE%E5%BA%A6%E9%99%A4%E6%B3%95.md">SJTU OJ 1016 （高精度除以高精度)</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[最大子矩形的降维分析方法]]></title>
         <id>https://zyq2652192993zyq.github.io//post/zui-da-zi-ju-xing-de-jiang-wei-fen-xi-fang-fa</id>
