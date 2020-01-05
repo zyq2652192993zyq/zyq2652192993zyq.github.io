@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2020-01-05T08:56:15.094Z</updated>
+    <updated>2020-01-05T09:06:00.258Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -2539,7 +2539,7 @@ public:
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[矩阵旋转类问题的通用编程解法]]></title>
+        <title type="html"><![CDATA[矩阵旋转的数学解法]]></title>
         <id>https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa</id>
         <link href="https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa">
         </link>
@@ -2564,6 +2564,7 @@ rotate the input matrix in-place such that it becomes:
   [9,6,3]
 ]
 </code></pre>
+<p>这道题目网上给出的解法普遍是两次翻转，如果从数学的角度来思考，可以只需要一次翻转。</p>
 <p>对于这种旋转问题，直觉上第一反应是可以通过旋转矩阵求解，也就是得到一个通项公式。</p>
 <p>首先建立一个映射，无论题目里给出的矩阵是多少维，描述其中每一个元素的维数总是二维的，即行号和列号，将其画在平面直角坐标系里，单位长度为1，则旋转相当于顺时针旋转90°或逆时针旋转270°。</p>
 <p>其次我们需要找到旋转所围绕的中心点，但它是一直变化的且不在原点。更一般的，我们来研究下平面直角坐标系里的平移、旋转的新坐标和原坐标之间的关系。</p>

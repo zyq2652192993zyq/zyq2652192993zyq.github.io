@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>矩阵旋转类问题的通用编程解法 | Kylin</title>
+<title>矩阵旋转的数学解法 | Kylin</title>
 <meta name="description" content="Talk is cheap, show me the code.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1578214570857">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1578215157836">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
-        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1578214570857" class="site-logo">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1578215157836" class="site-logo">
         <h1 class="site-title">Kylin</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -92,7 +92,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">矩阵旋转类问题的通用编程解法</h2>
+            <h2 class="post-title">矩阵旋转的数学解法</h2>
             <div class="post-date">2019-09-03</div>
             
             <div class="post-content">
@@ -116,6 +116,7 @@ rotate the input matrix in-place such that it becomes:
   [9,6,3]
 ]
 </code></pre>
+<p>这道题目网上给出的解法普遍是两次翻转，如果从数学的角度来思考，可以只需要一次翻转。</p>
 <p>对于这种旋转问题，直觉上第一反应是可以通过旋转矩阵求解，也就是得到一个通项公式。</p>
 <p>首先建立一个映射，无论题目里给出的矩阵是多少维，描述其中每一个元素的维数总是二维的，即行号和列号，将其画在平面直角坐标系里，单位长度为1，则旋转相当于顺时针旋转90°或逆时针旋转270°。</p>
 <p>其次我们需要找到旋转所围绕的中心点，但它是一直变化的且不在原点。更一般的，我们来研究下平面直角坐标系里的平移、旋转的新坐标和原坐标之间的关系。</p>
