@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2020-03-30T12:07:05.119Z</updated>
+    <updated>2020-03-30T12:07:31.925Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io//atom.xml"/>
@@ -121,7 +121,7 @@ int main()
 <h1 id="线段树优化">线段树优化</h1>
 <p>典型问题：</p>
 <ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-8014683"> POJ 2866 <a href="https://blog.csdn.net/qq_43627087/article/details/100126021">https://blog.csdn.net/qq_43627087/article/details/100126021<label class="task-list-item-label" for="task-item-8014683"> POJ 2866 <https://blog.csdn.net/qq_43627087/article/details/100126021></label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-8270196"> POJ 2866 <a href="https://blog.csdn.net/qq_43627087/article/details/100126021">https://blog.csdn.net/qq_43627087/article/details/100126021<label class="task-list-item-label" for="task-item-8270196"> POJ 2866 <https://blog.csdn.net/qq_43627087/article/details/100126021></label></li>
 </ul>
 <h1 id="线性算法">线性算法</h1>
 <p>LeetCode 面试题 62 圆圈中最后剩下的数字(下标从0到n-1)。</p>
@@ -244,11 +244,11 @@ x = -\frac{\ln n}{\ln(1 - \frac{1}{k})}
 <hr>
 <p>典型题目：</p>
 <ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-923698"><label class="task-list-item-label" for="task-item-923698"> HDU 3089 Josephus again</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-5148317"><label class="task-list-item-label" for="task-item-5148317"> CF 101955 problem K</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-989948"><label class="task-list-item-label" for="task-item-989948"> SJTU OJ 4089 约瑟夫环（当时用数组模拟的）</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-2567742"><label class="task-list-item-label" for="task-item-2567742"> LeetCode 面试题 62 圆圈中最后剩下的数字（采用模拟的方法会超时）</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-7955124"><label class="task-list-item-label" for="task-item-7955124"> POJ 2886 （线段树 + 单点修改 + 约瑟夫环）</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-6252649"><label class="task-list-item-label" for="task-item-6252649"> HDU 3089 Josephus again</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-1581131"><label class="task-list-item-label" for="task-item-1581131"> CF 101955 problem K</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-4860548"><label class="task-list-item-label" for="task-item-4860548"> SJTU OJ 4089 约瑟夫环（当时用数组模拟的）</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-1066882"><label class="task-list-item-label" for="task-item-1066882"> LeetCode 面试题 62 圆圈中最后剩下的数字（采用模拟的方法会超时）</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-1441102"><label class="task-list-item-label" for="task-item-1441102"> POJ 2886 （线段树 + 单点修改 + 约瑟夫环）</label></li>
 </ul>
 ]]></content>
     </entry>
