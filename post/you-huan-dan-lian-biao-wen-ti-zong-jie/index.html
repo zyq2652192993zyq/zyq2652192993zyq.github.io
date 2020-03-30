@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1585570022754">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1585570863481">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
-        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1585570022754" class="site-logo">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1585570863481" class="site-logo">
         <h1 class="site-title">Kylin</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,19 +116,19 @@
 Output: true
 Explanation: There is a cycle in the linked list, where tail connects to the second node.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img"></p>
+<figure data-type="image" tabindex="1"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img" loading="lazy"></figure>
 <p><strong>Example 2:</strong></p>
 <pre><code>Input: head = [1,2], pos = 0
 Output: true
 Explanation: There is a cycle in the linked list, where tail connects to the first node.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img"></p>
+<figure data-type="image" tabindex="2"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img" loading="lazy"></figure>
 <p><strong>Example 3:</strong></p>
 <pre><code>Input: head = [1], pos = -1
 Output: false
 Explanation: There is no cycle in the linked list.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img"></p>
+<figure data-type="image" tabindex="3"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img" loading="lazy"></figure>
 <p><strong>Follow up:</strong></p>
 <ul>
 <li>Can you solve it using <em>O(1)</em> (i.e. constant) memory?</li>
@@ -169,19 +169,19 @@ public:
 Output: tail connects to node index 1
 Explanation: There is a cycle in the linked list, where tail connects to the second node.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img"></p>
+<figure data-type="image" tabindex="4"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img" loading="lazy"></figure>
 <p><strong>Example 2:</strong></p>
 <pre><code>Input: head = [1,2], pos = 0
 Output: tail connects to node index 0
 Explanation: There is a cycle in the linked list, where tail connects to the first node.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img"></p>
+<figure data-type="image" tabindex="5"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img" loading="lazy"></figure>
 <p><strong>Example 3:</strong></p>
 <pre><code>Input: head = [1], pos = -1
 Output: no cycle
 Explanation: There is no cycle in the linked list.
 </code></pre>
-<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img"></p>
+<figure data-type="image" tabindex="6"><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img" loading="lazy"></figure>
 <p><strong>Follow-up</strong>:</p>
 <ul>
 <li>Can you solve it without using extra space?</li>
@@ -283,7 +283,7 @@ public:
 <p>这个方法的用处在<code>LeetCode 143.Reorder List</code>体现出来。</p>
 <h1 id="如何判断两个单链表是否相交">如何判断两个单链表是否相交？</h1>
 <p>首先假设两个单链表都无环，相交情况如下图：</p>
-<p><img src="https://i.loli.net/2019/11/04/pW1INy5RGhoHcwM.png" alt=""></p>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2019/11/04/pW1INy5RGhoHcwM.png" alt="" loading="lazy"></figure>
 <p>有两种思路：</p>
 <p>一种是根据上面题目很自然想到的：先遍历第一个链表，由于无环，肯定可以访问到最后，然后把最后节点和自己的头节点连起来形成一个环，然后去访问第二个链表，如果两个链表相交，那么第二个链表就会形成环，否则不会，所以转化成了链表找环的问题，如果想输出交点思路同上。</p>
 <p>第二种方法较第一种实施起来更为简单，因为第一种还需要去改动链表，最后记得恢复原状。不妨换一种思路，如果两个链表相交，那么一定有公共节点，在哪个位置不清楚，但是可以知道相交的链表最后一个节点一定是公共节点。所以访问第一个链表，记录最后一个节点，再访问第二个链表，如果第二个链表访问到最后也没有找到与记录节点相同的节点，那么没有相交，否则相交。</p>
@@ -390,7 +390,7 @@ public:
 <p>最简单的情况是两个链中一个有环，一个无环，这种情况下必然无交点。</p>
 <p>两个无环的链表思路和“判断无环链表是否相交一样了”，判断尾指针即可。</p>
 <p>两个单链表有环不相交，显然环不会有重合的部分。<strong>两个链都有环且相交</strong>，分为两种情形如下图，但是一个共同点是，环是两个单链表的公共部分。</p>
-<p><img src="https://i.loli.net/2019/11/04/EOATYwd2BqiKDcg.png" alt=""></p>
+<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2019/11/04/EOATYwd2BqiKDcg.png" alt="" loading="lazy"></figure>
 <p>很明显，区别在于环的入口不同。所以思路是：</p>
 <ul>
 <li>先写一个判断单链表是否有环的程序，分别判断两个单链表是否有环。</li>
@@ -493,7 +493,7 @@ public:
             
               <div class="tag-container">
                 
-                  <a href="https://zyq2652192993zyq.github.io//tag/_0ORnHtZE" class="tag">
+                  <a href="https://zyq2652192993zyq.github.io/tag/_0ORnHtZE/" class="tag">
                     数据结构——链表
                   </a>
                 
@@ -502,7 +502,7 @@ public:
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://zyq2652192993zyq.github.io//post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa">
+                <a href="https://zyq2652192993zyq.github.io/post/ju-zhen-xuan-zhuan-lei-wen-ti-de-tong-yong-bian-cheng-jie-fa/">
                   <h3 class="post-title">
                     矩阵旋转的数学解法
                   </h3>
