@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>First Unique Number | Kylin</title>
+<meta name="description" content="Talk is cheap, show me the code.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1588071170598">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1588071170598" class="site-logo">
+        <h1 class="site-title">Kylin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://github.com/zyq2652192993zyq" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://zyq2652192993zyq.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Talk is cheap, show me the code.
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://zyq2652192993zyq.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">First Unique Number</h2>
+            <div class="post-date">2020-04-28</div>
+            
+            <div class="post-content">
+              <p>Tags: <code>Hash Table</code> <code>Queue</code></p>
+<p>Links: https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/531/week-4/3313/</p>
+<hr>
+<p>You have a queue of integers, you need to retrieve the first unique integer in the queue.</p>
+<p>Implement the <code>FirstUnique</code> class:</p>
+<ul>
+<li><code>FirstUnique(int[] nums)</code> Initializes the object with the numbers in the queue.</li>
+<li><code>int showFirstUnique()</code> returns the value of <strong>the first unique</strong> integer of the queue, and returns <strong>-1</strong> if there is no such integer.</li>
+<li><code>void add(int value)</code> insert value to the queue.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: 
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
+[[[2,3,5]],[],[5],[],[2],[],[3],[]]
+Output: 
+[null,2,null,2,null,3,null,-1]
+
+Explanation: 
+FirstUnique firstUnique = new FirstUnique([2,3,5]);
+firstUnique.showFirstUnique(); // return 2
+firstUnique.add(5);            // the queue is now [2,3,5,5]
+firstUnique.showFirstUnique(); // return 2
+firstUnique.add(2);            // the queue is now [2,3,5,5,2]
+firstUnique.showFirstUnique(); // return 3
+firstUnique.add(3);            // the queue is now [2,3,5,5,2,3]
+firstUnique.showFirstUnique(); // return -1
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: 
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
+[[[7,7,7,7,7,7]],[],[7],[3],[3],[7],[17],[]]
+Output: 
+[null,-1,null,null,null,null,null,17]
+
+Explanation: 
+FirstUnique firstUnique = new FirstUnique([7,7,7,7,7,7]);
+firstUnique.showFirstUnique(); // return -1
+firstUnique.add(7);            // the queue is now [7,7,7,7,7,7,7]
+firstUnique.add(3);            // the queue is now [7,7,7,7,7,7,7,3]
+firstUnique.add(3);            // the queue is now [7,7,7,7,7,7,7,3,3]
+firstUnique.add(7);            // the queue is now [7,7,7,7,7,7,7,3,3,7]
+firstUnique.add(17);           // the queue is now [7,7,7,7,7,7,7,3,3,7,17]
+firstUnique.showFirstUnique(); // return 17
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: 
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
+[[[809]],[],[809],[]]
+Output: 
+[null,809,null,-1]
+
+Explanation: 
+FirstUnique firstUnique = new FirstUnique([809]);
+firstUnique.showFirstUnique(); // return 809
+firstUnique.add(809);          // the queue is now [809,809]
+firstUnique.showFirstUnique(); // return -1
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 10^8</code></li>
+<li><code>1 &lt;= value &lt;= 10^8</code></li>
+<li>At most <code>50000</code> calls will be made to <code>showFirstUnique</code> and <code>add</code>.</li>
+</ul>
+<hr>
+<pre><code class="language-c++">class FirstUnique {
+	unordered_map&lt;int, list&lt;int&gt;&gt; freq;
+	unordered_map&lt;int, list&lt;int&gt;::iterator&gt; it;
+	unordered_map&lt;int, int&gt; s;
+public:
+    FirstUnique(vector&lt;int&gt;&amp; nums) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+
+        int n = nums.size();
+        for (int i = 0; i &lt; n; ++i) {
+        	add(nums[i]);
+        }
+    }
+    
+    int showFirstUnique() {
+        return freq[1].size() == 0 ? -1 : freq[1].back();
+    }
+    
+    void add(int value) {
+        if (s.find(value) == s.end()) {
+        	freq[1].push_front(value);
+        	it[value] = freq[1].begin();
+        	++s[value];
+        }
+        else {
+        	if (s[value] == 1) {
+        		auto pos = it[value];
+        		freq[1].erase(pos);
+        		it.erase(value);
+        		++s[value];
+        	}
+        	else ++s[value];
+        }
+    }
+};
+
+/**
+ * Your FirstUnique object will be instantiated and called as such:
+ * FirstUnique* obj = new FirstUnique(nums);
+ * int param_1 = obj-&gt;showFirstUnique();
+ * obj-&gt;add(value);
+ */
+</code></pre>
+<p>这道题是一个设计类型的问题，仅涉及两个操作，一个是查询第一个只出现一次的数，另一个是往序列里增加一个数。“第一个只出现一次”这个条件，其实可以很敏感的联想到LRU和LFU，LRU和LFU传递的很重要的思路是：</p>
+<ul>
+<li>如何表示插入顺序的先后？用双向链表来解决，链表靠前位置表示先出现，后来的元素插在尾端（究竟首尾哪一段表示位置靠前可以自行规定）</li>
+<li>如何解决链表不能随机访问的缺点？用<code>unordered_map</code>将链表的迭代器和某一查询要素进行映射，以达到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>访问的目的。</li>
+<li>LFU启发的思路是如何处理和频率相关的问题。</li>
+</ul>
+<p>那么这道题其实就可以从LRU和LFU中提取思路。用<code>freq</code>这个<code>unordered_map</code>用来建立频率和元素之间的映射，这里之存储频率为1的元素，值是一个链表，链表尾端表示顺序靠前，尾端表示新插入的元素。为了快速访问，用<code>it</code>建立元素和其在链表中迭代器的映射，因为这里之存储频率为1的元素，所以链表也不会出现重复元素。用<code>s</code>记录每个数字出现的频率。</p>
+<p>初始化部分，对于第一次出现的元素，插入到<code>freq</code>中的链表，用<code>it</code>记录迭代器的位置，当插入一个元素发现和之前插入的元素重复时，如果之前这个元素只是出现一次，那么说明这个元素目前还在频率为1的链表中，那么就需要把它删掉；如果这个元素的频率超过一次，说明肯定不会在频率为1的链表里，也就无需执行删除操作了。<strong>这一部分的内容和LFU非常接近</strong></p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://zyq2652192993zyq.github.io/post/dian-xing-wen-ti-yue-se-fu-huan-wen-ti/">
+                  <h3 class="post-title">
+                    典型问题——约瑟夫环问题
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
