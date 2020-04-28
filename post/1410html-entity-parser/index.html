@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>1410.HTML Entity Parser | Kylin</title>
+<meta name="description" content="Talk is cheap, show me the code.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1588072428730">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1588072428730" class="site-logo">
+        <h1 class="site-title">Kylin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://github.com/zyq2652192993zyq" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://zyq2652192993zyq.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Talk is cheap, show me the code.
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://zyq2652192993zyq.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">1410.HTML Entity Parser</h2>
+            <div class="post-date">2020-04-28</div>
+            
+            <div class="post-content">
+              <p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
+<p>Tags: <code>Medium</code> <code>String</code> <code>Stack</code></p>
+<p>Links: https://leetcode.com/problems/html-entity-parser/</p>
+<hr>
+<p><strong>HTML entity parser</strong> is the parser that takes HTML code as input and replace all the entities of the special characters by the characters itself.</p>
+<p>The special characters and their entities for HTML are:</p>
+<ul>
+<li><strong>Quotation Mark:</strong> the entity is <code>&quot;</code> and symbol character is <code>&quot;</code>.</li>
+<li><strong>Single Quote Mark:</strong> the entity is <code>'</code> and symbol character is <code>'</code>.</li>
+<li><strong>Ampersand:</strong> the entity is <code>&amp;</code> and symbol character is <code>&amp;</code>.</li>
+<li><strong>Greater Than Sign:</strong> the entity is <code>&gt;</code> and symbol character is <code>&gt;</code>.</li>
+<li><strong>Less Than Sign:</strong> the entity is <code>&lt;</code> and symbol character is <code>&lt;</code>.</li>
+<li><strong>Slash:</strong> the entity is <code>⁄</code> and symbol character is <code>/</code>.</li>
+</ul>
+<p>Given the input <code>text</code> string to the HTML parser, you have to implement the entity parser.</p>
+<p>Return <em>the text</em> after replacing the entities by the special characters.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: text = &quot;&amp;amp; is an HTML entity but &amp;ambassador; is not.&quot;
+Output: &quot;&amp; is an HTML entity but &amp;ambassador; is not.&quot;
+Explanation: The parser will replace the &amp;amp; entity by &amp;
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: text = &quot;and I quote: &amp;quot;...&amp;quot;&quot;
+Output: &quot;and I quote: \&quot;...\&quot;&quot;
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: text = &quot;Stay home! Practice on Leetcode :)&quot;
+Output: &quot;Stay home! Practice on Leetcode :)&quot;
+</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code>Input: text = &quot;x &amp;gt; y &amp;amp;&amp;amp; x &amp;lt; y is always false&quot;
+Output: &quot;x &gt; y &amp;&amp; x &lt; y is always false&quot;
+</code></pre>
+<p><strong>Example 5:</strong></p>
+<pre><code>Input: text = &quot;leetcode.com&amp;frasl;problemset&amp;frasl;all&quot;
+Output: &quot;leetcode.com/problemset/all&quot;
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= text.length &lt;= 10^5</code></li>
+<li>The string may contain any possible characters out of all the 256 ASCII characters.</li>
+</ul>
+<hr>
+<pre><code class="language-c++">class Solution {
+public:
+    string entityParser(string text) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+
+        string res;
+        int n = text.size();
+        int pos = 0; 
+        while (pos &lt; n) {
+            if (text[pos] == '&amp;') {
+                if (text.substr(pos, 6) == &quot;&amp;quot;&quot;) {
+                    res += &quot;\&quot;&quot;;
+                    pos += 6;
+                }
+                else if (text.substr(pos, 6) == &quot;&amp;apos;&quot;) {
+                    res += &quot;'&quot;;
+                    pos += 6;
+                }
+                else if (text.substr(pos, 5) == &quot;&amp;amp;&quot;) {
+                    res.push_back('&amp;');
+                    pos += 5;
+                }
+                else if (text.substr(pos, 4) == &quot;&amp;gt;&quot;) {
+                    res.push_back('&gt;');
+                    pos += 4;
+                }
+                else if (text.substr(pos, 4) == &quot;&amp;lt;&quot;) {
+                    res.push_back('&lt;'); pos += 4;
+                }
+                else if (text.substr(pos, 7) == &quot;&amp;frasl;&quot;) {
+                    res.push_back('/'); pos += 7;
+                }
+                else {
+                    res.push_back('&amp;'); ++pos;
+                }
+            }
+            else {
+                res.push_back(text[pos]);
+                ++pos;
+            }
+        }
+
+        return res;
+    }
+};
+</code></pre>
+<p>如果之前关注过《C++ Primer》校审的叶劲峰老师的GitHub，其中就有一个关于<code>json parser</code>的小练习，接触过再来看这道题就不会觉得很陌生。</p>
+<p>这个非常类似于写一个<code>json parser</code>的思路，写<code>json parser</code>每次只需要根据字符串的首字母就可以很方便的确定后续内容，这个题目同理，发现每一个特殊字符的第一个字符的开头都是<code>&amp;</code>，所以就可以据此判断。另外为什么不选取<code>&amp;</code>后一个字符作为进一步判断，因为比如<code>&amp;apos;</code>和<code>&amp;amp;</code>，就需要额外判断两个字符，代码写起来不是很优雅，所以直接<code>substr</code>。</p>
+<p>另外以HTML为背景的题目</p>
+<ul>
+<li>POJ 2271 HTML</li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://zyq2652192993zyq.github.io/post/1377frog-position-after-t-seconds/">
+                  <h3 class="post-title">
+                    1377.Frog Position After T Seconds
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

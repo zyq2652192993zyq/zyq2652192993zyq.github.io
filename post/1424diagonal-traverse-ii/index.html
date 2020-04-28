@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>1424.Diagonal Traverse II | Kylin</title>
+<meta name="description" content="Talk is cheap, show me the code.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1588072428730">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1588072428730" class="site-logo">
+        <h1 class="site-title">Kylin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://github.com/zyq2652192993zyq" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://zyq2652192993zyq.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Talk is cheap, show me the code.
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://zyq2652192993zyq.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">1424.Diagonal Traverse II</h2>
+            <div class="post-date">2020-04-28</div>
+            
+            <div class="post-content">
+              <p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
+<p>Tags: <code>Medium</code> <code>Array</code> <code>Sort</code></p>
+<p>Links: https://leetcode.com/problems/diagonal-traverse-ii/</p>
+<hr>
+<p>Given a list of lists of integers, <code>nums</code>, return all elements of <code>nums</code> in diagonal order as shown in the below images.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/04/08/sample_1_1784.png" alt="img" loading="lazy"></strong></p>
+<pre><code>Input: nums = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,4,2,7,5,3,8,6,9]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/04/08/sample_2_1784.png" alt="img" loading="lazy"></strong></p>
+<pre><code>Input: nums = [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
+Output: [1,6,2,8,7,3,9,4,12,10,5,13,11,14,15,16]
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: nums = [[1,2,3],[4],[5,6,7],[8],[9,10,11]]
+Output: [1,4,2,5,3,8,6,9,7,10,11]
+</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code>Input: nums = [[1,2,3,4,5,6]]
+Output: [1,2,3,4,5,6]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
+<li><code>1 &lt;= nums[i].length &lt;= 10^5</code></li>
+<li><code>1 &lt;= nums[i][j] &lt;= 10^9</code></li>
+<li>There at most <code>10^5</code> elements in <code>nums</code>.</li>
+</ul>
+<hr>
+<p>一看到对角线，我的第一反应是八皇后问题。在八皇后问题里，判断是否在同一主对角线还是同一次对角线时，主对角线上满足<code>行号 - 列号</code>差值相同，次对角线上满足<code>行号 + 列号</code>总和相同。</p>
+<p>本题仅仅涉及次对角线，所以在同意对角线上的元素，必然满足<code>i+j</code>的值相同，其中<code>i</code>是行号，<code>j</code>是列号。那么只需要用一个<code>unordered_map</code>统计<code>i+j</code>对应的元素有哪些，注意点是输出的顺序是从左下到右上，那么就需要每个数组逆序输出。如果题目变化一下，从右上到左下输出，就每个数组正序输出即可，灵活掌握。</p>
+<p>数组里的每个元素遍历两遍，设元素总数是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>，时间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; findDiagonalOrder(vector&lt;vector&lt;int&gt;&gt;&amp; nums) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+
+        int n = nums.size();
+        unordered_map&lt;int, vector&lt;int&gt;&gt; um;
+        int maxSum = 0;
+        for (int i = 0; i &lt; n; ++i) {
+        	for (int j = 0; j &lt; nums[i].size(); ++j) {
+        		um[i + j].push_back(nums[i][j]);
+        		maxSum = max(maxSum, i + j);
+        	}
+        }
+
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt;= maxSum; ++i) {
+        	for (int j = (int)um[i].size() - 1; j &gt;= 0; --j) {
+        		res.push_back(um[i][j]);
+        	}
+        }
+
+        return res;
+    }	
+};
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://zyq2652192993zyq.github.io/post/1423maximum-points-you-can-obtain-from-cards/">
+                  <h3 class="post-title">
+                    1423.Maximum Points You Can Obtain from Cards
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
