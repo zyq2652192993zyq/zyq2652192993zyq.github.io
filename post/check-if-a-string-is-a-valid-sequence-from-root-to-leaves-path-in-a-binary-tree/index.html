@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree | Kylin</title>
+<meta name="description" content="Talk is cheap, show me the code.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://zyq2652192993zyq.github.io//favicon.ico?v=1588240943693">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://zyq2652192993zyq.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://zyq2652192993zyq.github.io/">
+        <img src="https://zyq2652192993zyq.github.io//images/avatar.png?v=1588240943693" class="site-logo">
+        <h1 class="site-title">Kylin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://github.com/zyq2652192993zyq" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://zyq2652192993zyq.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Talk is cheap, show me the code.
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://zyq2652192993zyq.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree</h2>
+            <div class="post-date">2020-04-30</div>
+            
+            <div class="post-content">
+              <p>Tags: <code>Tree</code></p>
+<p>Links: https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/532/week-5/3315/</p>
+<hr>
+<p>Given a binary tree where each path going from the root to any leaf form a <strong>valid sequence</strong>, check if a given string is a <strong>valid sequence</strong> in such binary tree.</p>
+<p>We get the given string from the concatenation of an array of integers <code>arr</code> and the concatenation of all values of the nodes along a path results in a <strong>sequence</strong> in the given binary tree.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_1.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,0,1]
+Output: true
+Explanation: 
+The path 0 -&gt; 1 -&gt; 0 -&gt; 1 is a valid sequence (green color in the figure). 
+Other valid sequences are: 
+0 -&gt; 1 -&gt; 1 -&gt; 0 
+0 -&gt; 0 -&gt; 0
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_2.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,0,1]
+Output: false 
+Explanation: The path 0 -&gt; 0 -&gt; 1 does not exist, therefore it is not even a sequence.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_3.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,1]
+Output: false
+Explanation: The path 0 -&gt; 1 -&gt; 1 is a sequence, but it is not a valid sequence.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 5000</code></li>
+<li><code>0 &lt;= arr[i] &lt;= 9</code></li>
+<li>Each node's value is between [0 - 9].</li>
+</ul>
+<hr>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidSequence(TreeNode* root, vector&lt;int&gt;&amp; arr) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        
+        int n = arr.size();
+        return isValid(root, 0, n - 1, arr);
+    }
+    
+    bool isValid(TreeNode *root, int start, int end, vector&lt;int&gt; &amp; arr)
+    {
+    	if (start == end &amp;&amp; root &amp;&amp; !root -&gt; left &amp;&amp; !root -&gt; right)
+    		return root -&gt; val == arr[start];
+        if ((!root &amp;&amp; start &lt;= end) || (root &amp;&amp; start &gt; end)) return false;
+        if (root -&gt; val != arr[start]) return false;
+        
+        bool left = start &lt; end ? isValid(root -&gt; left, start + 1, end, arr) : false;
+        bool right = start &lt; end ? isValid(root -&gt; right, start + 1, end, arr) : false;
+        return left || right;
+    }
+};
+</code></pre>
+<p>数据范围表明序列不为空，并且始终保证<code>start &lt;= end</code>，一种很直接的思路就是检验当前点是否等于数组里对应的元素，于是我们用<code>start</code>来记录检验到数组的哪个位置，<code>end</code>是数组的边界。然后递归的检验树的左右节点。</p>
+<p>既然涉及到递归，首先应该考虑递归的终止条件，终止的情况可能有：</p>
+<ul>
+<li>树遍历到了叶节点（描述叶节点就是检验左右子树是否为空），数组也遍历到了最后一个元素，那么只需检验叶节点的值和数组元素值是否相等</li>
+<li>树还没有到叶节点，但是数组已经到了末尾，为<code>false</code></li>
+<li>树到了叶节点，但是数组还没有到末尾，为<code>false</code></li>
+</ul>
+<p>考虑递归中可能存在的问题，因为终止情况已经检验了树节点为空的情况，那么此时树的节点不为空，只需要检验元素是否对应相等即可。最后递归遍历左右子树，结果取或即可。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://zyq2652192993zyq.github.io/post/279perfect-squares/">
+                  <h3 class="post-title">
+                    279.Perfect Squares
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

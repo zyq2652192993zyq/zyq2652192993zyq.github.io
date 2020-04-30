@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2020-04-30T05:03:06.457Z</updated>
+    <updated>2020-04-30T10:06:06.976Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io/atom.xml"/>
@@ -10,6 +10,91 @@
     <logo>https://zyq2652192993zyq.github.io/images/avatar.png</logo>
     <icon>https://zyq2652192993zyq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Kylin</rights>
+    <entry>
+        <title type="html"><![CDATA[Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree]]></title>
+        <id>https://zyq2652192993zyq.github.io/post/check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/</id>
+        <link href="https://zyq2652192993zyq.github.io/post/check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/">
+        </link>
+        <updated>2020-04-30T10:01:56.000Z</updated>
+        <content type="html"><![CDATA[<p>Tags: <code>Tree</code></p>
+<p>Links: https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/532/week-5/3315/</p>
+<hr>
+<p>Given a binary tree where each path going from the root to any leaf form a <strong>valid sequence</strong>, check if a given string is a <strong>valid sequence</strong> in such binary tree.</p>
+<p>We get the given string from the concatenation of an array of integers <code>arr</code> and the concatenation of all values of the nodes along a path results in a <strong>sequence</strong> in the given binary tree.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_1.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,0,1]
+Output: true
+Explanation: 
+The path 0 -&gt; 1 -&gt; 0 -&gt; 1 is a valid sequence (green color in the figure). 
+Other valid sequences are: 
+0 -&gt; 1 -&gt; 1 -&gt; 0 
+0 -&gt; 0 -&gt; 0
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_2.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,0,1]
+Output: false 
+Explanation: The path 0 -&gt; 0 -&gt; 1 does not exist, therefore it is not even a sequence.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_3.png" alt="img" style="zoom:50%;" /></strong></p>
+<pre><code>Input: root = [0,1,0,0,1,0,null,null,1,0,0], arr = [0,1,1]
+Output: false
+Explanation: The path 0 -&gt; 1 -&gt; 1 is a sequence, but it is not a valid sequence.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 5000</code></li>
+<li><code>0 &lt;= arr[i] &lt;= 9</code></li>
+<li>Each node's value is between [0 - 9].</li>
+</ul>
+<hr>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidSequence(TreeNode* root, vector&lt;int&gt;&amp; arr) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        
+        int n = arr.size();
+        return isValid(root, 0, n - 1, arr);
+    }
+    
+    bool isValid(TreeNode *root, int start, int end, vector&lt;int&gt; &amp; arr)
+    {
+    	if (start == end &amp;&amp; root &amp;&amp; !root -&gt; left &amp;&amp; !root -&gt; right)
+    		return root -&gt; val == arr[start];
+        if ((!root &amp;&amp; start &lt;= end) || (root &amp;&amp; start &gt; end)) return false;
+        if (root -&gt; val != arr[start]) return false;
+        
+        bool left = start &lt; end ? isValid(root -&gt; left, start + 1, end, arr) : false;
+        bool right = start &lt; end ? isValid(root -&gt; right, start + 1, end, arr) : false;
+        return left || right;
+    }
+};
+</code></pre>
+<p>数据范围表明序列不为空，并且始终保证<code>start &lt;= end</code>，一种很直接的思路就是检验当前点是否等于数组里对应的元素，于是我们用<code>start</code>来记录检验到数组的哪个位置，<code>end</code>是数组的边界。然后递归的检验树的左右节点。</p>
+<p>既然涉及到递归，首先应该考虑递归的终止条件，终止的情况可能有：</p>
+<ul>
+<li>树遍历到了叶节点（描述叶节点就是检验左右子树是否为空），数组也遍历到了最后一个元素，那么只需检验叶节点的值和数组元素值是否相等</li>
+<li>树还没有到叶节点，但是数组已经到了末尾，为<code>false</code></li>
+<li>树到了叶节点，但是数组还没有到末尾，为<code>false</code></li>
+</ul>
+<p>考虑递归中可能存在的问题，因为终止情况已经检验了树节点为空的情况，那么此时树的节点不为空，只需要检验元素是否对应相等即可。最后递归遍历左右子树，结果取或即可。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[279.Perfect Squares]]></title>
         <id>https://zyq2652192993zyq.github.io/post/279perfect-squares/</id>
@@ -940,69 +1025,6 @@ t = ab
 结果为543744000，超出INT_MAX
 </code></pre>
 <p>所以涉及到加法以及计数的时候，还是要考虑以下数据溢出问题。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[97.Interleaving String]]></title>
-        <id>https://zyq2652192993zyq.github.io/post/97interleaving-string/</id>
-        <link href="https://zyq2652192993zyq.github.io/post/97interleaving-string/">
-        </link>
-        <updated>2020-04-28T11:05:46.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Hard</code> <code>Dynamic Programming</code></p>
-<p>Links: https://leetcode.com/problems/interleaving-string/</p>
-<hr>
-<p>Given <em>s1</em>, <em>s2</em>, <em>s3</em>, find whether <em>s3</em> is formed by the interleaving of <em>s1</em> and <em>s2</em>.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbcbcac&quot;
-Output: true
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbbaccc&quot;
-Output: false
-</code></pre>
-<hr>
-<pre><code class="language-c++">class Solution {
-public:
-    bool isInterleave(string s1, string s2, string s3) {
-        std::ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-
-        int m = s1.size(), n = s2.size();
-        if (s3.size() != m + n) return false;
-
-        vector&lt;vector&lt;bool&gt;&gt; d(m + 1, vector&lt;bool&gt;(n + 1));
-        d[0][0] = true;
-        for (int i = 1; i &lt;= m; ++i) {
-            if (s1[i - 1] == s3[i - 1]) d[i][0] = true;
-            else break;
-        }
-
-        for (int i = 1; i &lt;= n; ++i) {
-            if (s2[i - 1] == s3[i - 1]) d[0][i] = true;
-            else break;
-        }
-
-        for (int i = 1; i &lt;= m; ++i) {
-            for (int j = 1; j &lt;= n; ++j) {
-                d[i][j] = (s1[i - 1] == s3[i + j - 1] &amp;&amp; d[i - 1][j]) 
-                	|| (s2[j - 1] == s3[i + j - 1] &amp;&amp; d[i][j - 1]);
-            }
-        }
-
-        return d[m][n];
-    }
-};
-</code></pre>
-<p>首先如果交错构成的，则必有<code>s3</code>长度等于<code>s1</code>和<code>s2</code>的长度和。另外尤其需要注意的就是顺序问题，考虑这样一个例子：</p>
-<pre><code>s3 = bbac
-s1 = ab
-s2 = bc
-</code></pre>
-<p>虽然<code>s1</code>和<code>s2</code>的字符在<code>s3</code>里都存在，但是违背了顺序关系。</p>
-<p>其实这道题和编辑距离还是很接近的，用<code>d[i][j]</code>表示<code>s1</code>的前<code>i</code>个字符和<code>s2</code>的前<code>j</code>个字符能否和<code>s3</code>的前<code>i+j</code>个字符完成匹配。首先就是初始化问题，<code>d[0][0]</code>显然为<code>true</code>，另外初始化当<code>s1</code>为空和<code>s2</code>为空的情况。</p>
-<p>假如<code>s1[i - 1]</code>和<code>s3[i+j-1]</code>完成匹配，那么意味着<code>s1</code>前<code>i-1</code>个和<code>s2</code>前<code>j</code>个字符要和<code>s3</code>前<code>i+j-1</code>个字符完成匹配，或者<code>s2[j -1] == s3[i + j - 1]</code>，则需要<code>s1</code>前<code>i</code>个和<code>s2</code>前<code>j-1</code>个匹配。两者中只要有一个满足即可，所以用或的关系。</p>
 ]]></content>
     </entry>
 </feed>
