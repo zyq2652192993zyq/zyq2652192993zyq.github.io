@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2020-05-03T07:35:54.548Z</updated>
+    <updated>2020-05-10T08:22:58.844Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io/atom.xml"/>
@@ -10,6 +10,262 @@
     <logo>https://zyq2652192993zyq.github.io/images/avatar.png</logo>
     <icon>https://zyq2652192993zyq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Kylin</rights>
+    <entry>
+        <title type="html"><![CDATA[1246.Palindrome Removal]]></title>
+        <id>https://zyq2652192993zyq.github.io/post/1246palindrome-removal/</id>
+        <link href="https://zyq2652192993zyq.github.io/post/1246palindrome-removal/">
+        </link>
+        <updated>2020-05-10T08:21:00.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
+<p>Tags: <code>Hard</code> <code>Dynamic Programming</code></p>
+<p>Links: https://leetcode-cn.com/problems/palindrome-removal/</p>
+<hr>
+<p>Given an integer array <code>arr</code>, in one move you can select a palindromic subarray <code>arr[i], arr[i+1], ..., arr[j]</code> where <code>i &lt;= j</code>, and remove that subarray from the given array. Note that after removing a subarray, the elements on the left and on the right of that subarray move to fill the gap left by the removal.</p>
+<p>Return the minimum number of moves needed to remove all numbers from the array.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: arr = [1,2]
+Output: 2
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: arr = [1,3,4,1,5]
+Output: 3
+Explanation: Remove [4] then remove [1,3,1] then remove [5].
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 100</code></li>
+<li><code>1 &lt;= arr[i] &lt;= 20</code></li>
+</ul>
+<hr>
+<pre><code class="language-c++">class Solution {
+public:
+    int minimumMoves(vector&lt;int&gt;&amp; arr) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+
+        int n = arr.size();
+        vector&lt;vector&lt;int&gt;&gt; d(n + 1, vector&lt;int&gt;(n + 1, INT_MAX - 1000));
+        //每个字母单独删除需要1次
+        d[0][0] = 0;
+        for (int i = 1; i &lt;= n; ++i) d[i][i] = 1; 
+        for (int i = 1; i &lt;= n; ++i) d[i][i - 1] = 0;
+
+        for (int len = 2; len &lt;= n; ++len) {
+            for (int i = 0; i &lt; n - len + 1; ++i) {
+                int j = i + len - 1;
+                //第i个字母单独删除
+                d[i][j] = 1 + d[i + 1][j];
+                if (arr[i] == arr[i + 1]) 
+                    d[i][j] = min(d[i][j], 1 + d[i + 2][j]);
+
+                for (int k = i + 2; k &lt;= j; ++k) {
+                    if (arr[i] == arr[k])
+                        d[i][j] = min(d[i][j], d[i + 1][k - 1] + d[k + 1][j]);
+                }
+            }
+        }
+
+        return d[0][n - 1];
+    }
+};
+</code></pre>
+<p>数组长度小于100，意味着可能存在多重循环。</p>
+<p>设<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">d[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>代表删除区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[i,j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>的字符的最少操作数。初始<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>]</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d[i][i] = 1, d[i][i - 1] = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>。其余为较大数值。</p>
+<ul>
+<li>删除字符的方式可以单独删除，那么<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>=</mo><mi>min</mi><mo>⁡</mo><mo>(</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo separator="true">,</mo><mn>1</mn><mo>+</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">d[i][j] = \min (d[i][j], 1 + d[i + 1][j])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span></li>
+<li>如果<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mo>=</mo><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">arr[i] == arr[i + 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>，意味着构成回文串，可以一起删除：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>=</mo><mi>min</mi><mo>⁡</mo><mo>(</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo separator="true">,</mo><mn>1</mn><mo>+</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>+</mo><mn>2</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">d[i][j] = \min (d[i][j], 1 + d[i + 2][j])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span>。</li>
+<li>另外如果<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>≥</mo><mi>i</mi><mo>+</mo><mn>2</mn><mo separator="true">,</mo><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mo>=</mo><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>k</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">k \geq i + 2, arr[i] == arr[k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span>，那么意味着<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo separator="true">,</mo><mi>a</mi><mi>r</mi><mi>r</mi><mo>[</mo><mi>k</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">arr[i], arr[k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span>可以和区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[i + 1, k - 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>一起删除，那么<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>=</mo><mi>min</mi><mo>⁡</mo><mo>(</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo separator="true">,</mo><mi>d</mi><mo>[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>]</mo><mo>+</mo><mi>d</mi><mo>[</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">d[i][j] = \min (d[i][j], d[i + 1][k - 1] + d[k + 1][j])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span>。</li>
+</ul>
+<p>注意以下边界条件即可。</p>
+<p>另外这道题还是微软的笔试题，可以变化的形式比如改成字符串，方法一样，引起重视。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[1443.Minimum Time to Collect All Apples in a Tree]]></title>
+        <id>https://zyq2652192993zyq.github.io/post/1443minimum-time-to-collect-all-apples-in-a-tree/</id>
+        <link href="https://zyq2652192993zyq.github.io/post/1443minimum-time-to-collect-all-apples-in-a-tree/">
+        </link>
+        <updated>2020-05-10T08:19:20.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
+<p>Tags: <code>Medium</code> <code>Depth-first Search</code></p>
+<p>Links: https://leetcode.com/problems/minimum-time-to-collect-all-apples-in-a-tree/</p>
+<hr>
+<p>Given an undirected tree consisting of <code>n</code> vertices numbered from 0 to <code>n-1</code>, which has some apples in their vertices. You spend 1 second to walk over one edge of the tree. <em>Return the minimum time in seconds you have to spend in order to collect all apples in the tree starting at <strong>vertex 0</strong> and coming back to this vertex.</em></p>
+<p>The edges of the undirected tree are given in the array <code>edges</code>, where <code>edges[i] = [fromi, toi]</code> means that exists an edge connecting the vertices <code>fromi</code> and <code>toi</code>. Additionally, there is a boolean array <code>hasApple</code>, where <code>hasApple[i] = true</code> means that vertex <code>i</code> has an apple, otherwise, it does not have any apple.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/04/23/min_time_collect_apple_1.png" alt="img" loading="lazy"></strong></p>
+<pre><code>Input: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,true,false,true,true,false]
+Output: 8 
+Explanation: The figure above represents the given tree where red vertices have an apple. One optimal path to collect all apples is shown by the green arrows.  
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/04/23/min_time_collect_apple_2.png" alt="img" loading="lazy"></strong></p>
+<pre><code>Input: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,true,false,false,true,false]
+Output: 6
+Explanation: The figure above represents the given tree where red vertices have an apple. One optimal path to collect all apples is shown by the green arrows.  
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,false,false,false,false,false]
+Output: 0
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 10^5</code></li>
+<li><code>edges.length == n-1</code></li>
+<li><code>edges[i].length == 2</code></li>
+<li><code>0 &lt;= fromi, toi &lt;= n-1</code></li>
+<li><code>fromi &lt; toi</code></li>
+<li><code>hasApple.length == n</code></li>
+</ul>
+<hr>
+<p>用一个哈希表记录从与<code>from</code>节点直接相连的<code>to</code>节点。函数<code>solve</code>用来计算从<code>startPoint</code>开始采摘苹果所需的时间。递归的终止条件是当前节点的出度为0，也就是到了叶节点。</p>
+<p>每个节点遍历一次，时间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>。</p>
+<pre><code class="language-c++">class Solution {
+	unordered_map&lt;int, vector&lt;int&gt;&gt; um;
+
+public:
+    int minTime(int n, vector&lt;vector&lt;int&gt;&gt;&amp; edges, vector&lt;bool&gt;&amp; hasApple) {
+    	std::ios_base::sync_with_stdio(false);
+		cin.tie(NULL);
+		cout.tie(NULL);
+
+		for (auto &amp;e : edges) {
+			int from = e[0], to = e[1];
+			um[from].push_back(to);
+		}
+
+		return solve(hasApple, 0);
+    }
+
+    int solve(vector&lt;bool&gt; &amp; hasApple, int startPoint)
+    {
+    	if (um[startPoint].size() == 0) return 0;
+
+    	int sum = 0;
+    	auto &amp; v = um[startPoint];
+    	int len = v.size();
+    	for (int i = 0; i &lt; len; ++i) {
+    		int tmp = solve(hasApple, v[i]);
+    		if (tmp || (tmp == 0 &amp;&amp; hasApple[v[i]])) sum += 2 + tmp;
+    	}
+
+    	return sum;
+    }
+};
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[1444.Number of Ways of Cutting a Pizza]]></title>
+        <id>https://zyq2652192993zyq.github.io/post/1444number-of-ways-of-cutting-a-pizza/</id>
+        <link href="https://zyq2652192993zyq.github.io/post/1444number-of-ways-of-cutting-a-pizza/">
+        </link>
+        <updated>2020-05-10T08:18:31.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
+<p>Tags: <code>Hard</code> <code>Dynamic Programming</code></p>
+<p>Links: https://leetcode.com/problems/number-of-ways-of-cutting-a-pizza/</p>
+<hr>
+<p>Given a rectangular pizza represented as a <code>rows x cols</code> matrix containing the following characters: <code>'A'</code> (an apple) and <code>'.'</code> (empty cell) and given the integer <code>k</code>. You have to cut the pizza into <code>k</code> pieces using <code>k-1</code> cuts.</p>
+<p>For each cut you choose the direction: vertical or horizontal, then you choose a cut position at the cell boundary and cut the pizza into two pieces. If you cut the pizza vertically, give the left part of the pizza to a person. If you cut the pizza horizontally, give the upper part of the pizza to a person. Give the last piece of pizza to the last person.</p>
+<p><em>Return the number of ways of cutting the pizza such that each piece contains <strong>at least</strong> one apple.</em> Since the answer can be a huge number, return this modulo 10^9 + 7.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2020/04/23/ways_to_cut_apple_1.png" alt="img" loading="lazy"></strong></p>
+<pre><code>Input: pizza = [&quot;A..&quot;,&quot;AAA&quot;,&quot;...&quot;], k = 3
+Output: 3 
+Explanation: The figure above shows the three ways to cut the pizza. Note that pieces must contain at least one apple.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: pizza = [&quot;A..&quot;,&quot;AA.&quot;,&quot;...&quot;], k = 3
+Output: 1
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: pizza = [&quot;A..&quot;,&quot;A..&quot;,&quot;...&quot;], k = 1
+Output: 1
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= rows, cols &lt;= 50</code></li>
+<li><code>rows == pizza.length</code></li>
+<li><code>cols == pizza[i].length</code></li>
+<li><code>1 &lt;= k &lt;= 10</code></li>
+<li><code>pizza</code> consists of characters <code>'A'</code> and <code>'.'</code> only.</li>
+</ul>
+<hr>
+<p>无论横切还是竖切，每次都需要统计右下角剩余部分的苹果数，所以需要进行预处理，用二维数组<code>appleNum</code>记录左上角的苹果数，询问右下角的苹果数时通过函数<code>calculate</code><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>得到。如果对于这种方法有疑问，可以通过LeetCode 304.Range Sum Query 2D - Immutable体会。</p>
+<p>深搜遍历所有可能的切割方案，用数组<code>d[i][j][k]</code>表示从右下角向上<code>i</code>行，向前<code>j</code>列，切成<code>k</code>块的方案数。初始化为-1，如果搜索中发现<code>d[i][j][k]</code>不为-1，代表此种情况已经计算过了。</p>
+<pre><code class="language-c++">class Solution {
+    vector&lt;vector&lt;int&gt;&gt; appleNum;
+    static const int MODE = 1e9 + 7;
+    vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt; d;
+    int m, n; //行数和列数
+
+
+public:
+    int ways(vector&lt;string&gt;&amp; pizza, int k) {
+        std::ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+
+        appleNum.resize(55, vector&lt;int&gt;(55, 0));
+        d.resize(55, vector&lt;vector&lt;int&gt;&gt;(55, vector&lt;int&gt;(15, -1)));
+        m = pizza.size(), n = pizza[0].size();
+        prePorcess(pizza);
+
+        return DFS(m, n, k);
+    }
+
+    //预处理计算当前点到矩阵左上角的苹果数量
+    void prePorcess(vector&lt;string&gt;&amp; pizza)
+    {
+        for (int i = 1; i &lt;= m; ++i) {
+            for (int j = 1; j &lt;= n; ++j) {
+                appleNum[i][j] = appleNum[i - 1][j] + appleNum[i][j - 1] - appleNum[i - 1][j - 1];
+                if (pizza[i - 1][j - 1] == 'A') ++appleNum[i][j];
+            }
+        }
+    }
+
+    //计算从右下角向上rowNum行，向前colNum列的苹果数量
+    inline int calculate(int rowNum, int colNum)
+    {
+        return appleNum[m][n] - appleNum[m - rowNum][n] - appleNum[m][n - colNum] + appleNum[m - rowNum][n - colNum];
+    }
+
+    //深搜右下角向上rowNum行，向前colNum列，分成k份的方案数
+    int DFS(int rowNum, int colNum, int k)
+    {
+        //如果剩余的情况已经计算过了
+        if (d[rowNum][colNum][k] != -1) return d[rowNum][colNum][k];
+
+        //计算右下角剩余的苹果数
+        int cnt = calculate(rowNum, colNum);
+        //剩余苹果不够k个，无法继续划分
+        if (cnt &lt; k) return d[rowNum][colNum][k] = 0;
+        //剩余部分划分成1份，只有一种方案
+        if (k == 1) return d[rowNum][colNum][k] = 1;
+
+        d[rowNum][colNum][k] = 0;
+        //横着切
+        for (int i = 1; i &lt; rowNum; ++i) {
+            //必须保证切分的上半部分有苹果
+            if (cnt == calculate(rowNum - i, colNum)) continue;
+            d[rowNum][colNum][k] = (d[rowNum][colNum][k] + DFS(rowNum - i, colNum, k - 1)) % MODE;
+        }
+
+        //竖着切
+        for (int i = 1; i &lt; colNum; ++i) {
+            //必须保证切分的左半部分有苹果
+            if (cnt == calculate(rowNum, colNum - i)) continue;
+            d[rowNum][colNum][k] = (d[rowNum][colNum][k] + DFS(rowNum, colNum - i, k - 1)) % MODE;
+        }
+
+        return d[rowNum][colNum][k];
+    }
+};
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[1437.Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit]]></title>
         <id>https://zyq2652192993zyq.github.io/post/1437longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/</id>
@@ -90,7 +346,7 @@ public:
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree]]></title>
+        <title type="html"><![CDATA[1430.Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree]]></title>
         <id>https://zyq2652192993zyq.github.io/post/check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/</id>
         <link href="https://zyq2652192993zyq.github.io/post/check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/">
         </link>
@@ -675,321 +931,6 @@ public:
     }
 };
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1411.Number of Ways to Paint N × 3 Grid]]></title>
-        <id>https://zyq2652192993zyq.github.io/post/1411number-of-ways-to-paint-n-x-3-grid/</id>
-        <link href="https://zyq2652192993zyq.github.io/post/1411number-of-ways-to-paint-n-x-3-grid/">
-        </link>
-        <updated>2020-04-28T11:09:06.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Hard</code> <code>Dynamic Programming</code> <code>Math</code></p>
-<p>Links: https://leetcode.com/problems/number-of-ways-to-paint-n-3-grid/</p>
-<hr>
-<p>You have a <code>grid</code> of size <code>n x 3</code> and you want to paint each cell of the grid with exactly one of the three colours: <strong>Red</strong>, <strong>Yellow</strong> or <strong>Green</strong> while making sure that no two adjacent cells have the same colour (i.e no two cells that share vertical or horizontal sides have the same colour).</p>
-<p>You are given <code>n</code> the number of rows of the grid.</p>
-<p>Return <em>the number of ways</em> you can paint this <code>grid</code>. As the answer may grow large, the answer <strong>must be</strong> computed modulo <code>10^9 + 7</code>.</p>
-<p>![img](F:\Project\LeetCode\Dynamica Programming\e1.png)</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: n = 1
-Output: 12
-Explanation: There are 12 possible way to paint the grid as shown:
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: n = 2
-Output: 54
-</code></pre>
-<p><strong>Example 3:</strong></p>
-<pre><code>Input: n = 3
-Output: 246
-</code></pre>
-<p><strong>Example 4:</strong></p>
-<pre><code>Input: n = 7
-Output: 106494
-</code></pre>
-<p><strong>Example 5:</strong></p>
-<pre><code>Input: n = 5000
-Output: 30228214
-</code></pre>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>n == grid.length</code></li>
-<li><code>grid[i].length == 3</code></li>
-<li><code>1 &lt;= n &lt;= 5000</code></li>
-</ul>
-<hr>
-<pre><code class="language-c++">class Solution {
-public:
-    int numOfWays(int n) {
-        std::ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-        
-        const long long MODE = 1e9 + 7;
-        
-        long long equal = 6, notEqual = 6;
-        if (n == 1) return 12;
-        long long res;
-        for (int i = 2; i &lt;= n; ++i) {
-            res = (equal * 5 % MODE + notEqual * 4 % MODE) % MODE;
-            long long a = equal, b = notEqual;
-            equal = (a * 3 % MODE + b * 2 % MODE) % MODE;
-            notEqual = (a * 2 % MODE + b * 2 % MODE) % MODE;
-        }
-
-        return res;
-    }
-};
-</code></pre>
-<p>假设三种颜色用ABC分别表示，那么当<code>n = 1</code>的时候，有<code>3 * 2 * 2 = 12</code>种，当<code>n = 2</code>的时候，前一种的排列方式会对后面产生影响，仅仅以假设第一行的前两个染色为<code>AB</code>，考察后面的染色：</p>
-<pre><code>如果第一行最后一个和第一行第一个同色，即ABA
-那么第二行可能的染色方案是：
-BAB	BAC	CAB	CAC	BCB
-
-如果第一行最后一个的染色和第一行第一个不是同色，
-那么第二行可能的染色方案是：
-BCA	BCB BAB CAB
-</code></pre>
-<p>这时候发现规律，如果第二行出现<code>BAB</code>，那么和第一行出现<code>ABA</code>所得结果种类是一样的，于是发现，<code>n+1</code>的染色方案和第<code>n</code>行最后一个和第<code>n</code>行第一个染色是否同色有关，于是找到规律，每一个同色的方案会产生5种方案，其中3种同色方案和2种不同色方案；每一个不同色方案会产生2种同色方案和2种非同色方案。</p>
-<p>经过上面的分析，发现只需要维护每一行同色的方案数量和不同色的方案数量，分别用变量<code>equal</code>和<code>notEqual</code>来维护，则<code>n + 1</code>的方案数是<code>equal * 5 + notEqual * 4</code>，记得更新<code>equal</code>和<code>notEqual</code>的数值，以及可能产生的溢出问题。</p>
-<p>另外以染色为背景的题目还有：</p>
-<ul>
-<li>HDU 2045 不容易系列之(3)—— LELE的RPG难题（染色类型问题）</li>
-<li>UVA 11916 - Emoogle Grid（虽然是染色背景，但是考察的是数论）可以和前面两个染色问题关联起来思考。</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1410.HTML Entity Parser]]></title>
-        <id>https://zyq2652192993zyq.github.io/post/1410html-entity-parser/</id>
-        <link href="https://zyq2652192993zyq.github.io/post/1410html-entity-parser/">
-        </link>
-        <updated>2020-04-28T11:08:25.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Medium</code> <code>String</code> <code>Stack</code></p>
-<p>Links: https://leetcode.com/problems/html-entity-parser/</p>
-<hr>
-<p><strong>HTML entity parser</strong> is the parser that takes HTML code as input and replace all the entities of the special characters by the characters itself.</p>
-<p>The special characters and their entities for HTML are:</p>
-<ul>
-<li><strong>Quotation Mark:</strong> the entity is <code>&quot;</code> and symbol character is <code>&quot;</code>.</li>
-<li><strong>Single Quote Mark:</strong> the entity is <code>'</code> and symbol character is <code>'</code>.</li>
-<li><strong>Ampersand:</strong> the entity is <code>&amp;</code> and symbol character is <code>&amp;</code>.</li>
-<li><strong>Greater Than Sign:</strong> the entity is <code>&gt;</code> and symbol character is <code>&gt;</code>.</li>
-<li><strong>Less Than Sign:</strong> the entity is <code>&lt;</code> and symbol character is <code>&lt;</code>.</li>
-<li><strong>Slash:</strong> the entity is <code>⁄</code> and symbol character is <code>/</code>.</li>
-</ul>
-<p>Given the input <code>text</code> string to the HTML parser, you have to implement the entity parser.</p>
-<p>Return <em>the text</em> after replacing the entities by the special characters.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: text = &quot;&amp;amp; is an HTML entity but &amp;ambassador; is not.&quot;
-Output: &quot;&amp; is an HTML entity but &amp;ambassador; is not.&quot;
-Explanation: The parser will replace the &amp;amp; entity by &amp;
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: text = &quot;and I quote: &amp;quot;...&amp;quot;&quot;
-Output: &quot;and I quote: \&quot;...\&quot;&quot;
-</code></pre>
-<p><strong>Example 3:</strong></p>
-<pre><code>Input: text = &quot;Stay home! Practice on Leetcode :)&quot;
-Output: &quot;Stay home! Practice on Leetcode :)&quot;
-</code></pre>
-<p><strong>Example 4:</strong></p>
-<pre><code>Input: text = &quot;x &amp;gt; y &amp;amp;&amp;amp; x &amp;lt; y is always false&quot;
-Output: &quot;x &gt; y &amp;&amp; x &lt; y is always false&quot;
-</code></pre>
-<p><strong>Example 5:</strong></p>
-<pre><code>Input: text = &quot;leetcode.com&amp;frasl;problemset&amp;frasl;all&quot;
-Output: &quot;leetcode.com/problemset/all&quot;
-</code></pre>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>1 &lt;= text.length &lt;= 10^5</code></li>
-<li>The string may contain any possible characters out of all the 256 ASCII characters.</li>
-</ul>
-<hr>
-<pre><code class="language-c++">class Solution {
-public:
-    string entityParser(string text) {
-        std::ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-
-        string res;
-        int n = text.size();
-        int pos = 0; 
-        while (pos &lt; n) {
-            if (text[pos] == '&amp;') {
-                if (text.substr(pos, 6) == &quot;&amp;quot;&quot;) {
-                    res += &quot;\&quot;&quot;;
-                    pos += 6;
-                }
-                else if (text.substr(pos, 6) == &quot;&amp;apos;&quot;) {
-                    res += &quot;'&quot;;
-                    pos += 6;
-                }
-                else if (text.substr(pos, 5) == &quot;&amp;amp;&quot;) {
-                    res.push_back('&amp;');
-                    pos += 5;
-                }
-                else if (text.substr(pos, 4) == &quot;&amp;gt;&quot;) {
-                    res.push_back('&gt;');
-                    pos += 4;
-                }
-                else if (text.substr(pos, 4) == &quot;&amp;lt;&quot;) {
-                    res.push_back('&lt;'); pos += 4;
-                }
-                else if (text.substr(pos, 7) == &quot;&amp;frasl;&quot;) {
-                    res.push_back('/'); pos += 7;
-                }
-                else {
-                    res.push_back('&amp;'); ++pos;
-                }
-            }
-            else {
-                res.push_back(text[pos]);
-                ++pos;
-            }
-        }
-
-        return res;
-    }
-};
-</code></pre>
-<p>如果之前关注过《C++ Primer》校审的叶劲峰老师的GitHub，其中就有一个关于<code>json parser</code>的小练习，接触过再来看这道题就不会觉得很陌生。</p>
-<p>这个非常类似于写一个<code>json parser</code>的思路，写<code>json parser</code>每次只需要根据字符串的首字母就可以很方便的确定后续内容，这个题目同理，发现每一个特殊字符的第一个字符的开头都是<code>&amp;</code>，所以就可以据此判断。另外为什么不选取<code>&amp;</code>后一个字符作为进一步判断，因为比如<code>&amp;apos;</code>和<code>&amp;amp;</code>，就需要额外判断两个字符，代码写起来不是很优雅，所以直接<code>substr</code>。</p>
-<p>另外以HTML为背景的题目</p>
-<ul>
-<li>POJ 2271 HTML</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1377.Frog Position After T Seconds]]></title>
-        <id>https://zyq2652192993zyq.github.io/post/1377frog-position-after-t-seconds/</id>
-        <link href="https://zyq2652192993zyq.github.io/post/1377frog-position-after-t-seconds/">
-        </link>
-        <updated>2020-04-28T11:07:41.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Hard</code> <code>Depth-first Search</code></p>
-<p>Company: <code>Google</code></p>
-<p>Years: <code>1~2</code></p>
-<p>Links: <a href="https://leetcode.com/problems/frog-position-after-t-seconds/">https://leetcode.com/problems/frog-position-after-t-seconds/</a></p>
-<hr>
-<p>Given an undirected tree consisting of <code>n</code> vertices numbered from 1 to <code>n</code>. A frog starts jumping from the <strong>vertex 1</strong>. In one second, the frog jumps from its current vertex to another <strong>unvisited</strong> vertex if they are directly connected. The frog can not jump back to a visited vertex. In case the frog can jump to several vertices it jumps randomly to one of them with the same probability, otherwise, when the frog can not jump to any unvisited vertex it jumps forever on the same vertex.</p>
-<p>The edges of the undirected tree are given in the array <code>edges</code>, where <code>edges[i] = [fromi, toi]</code> means that exists an edge connecting directly the vertices <code>fromi</code> and <code>toi</code>.</p>
-<p><em>Return the probability that after t seconds the frog is on the vertex target.</em></p>
-<p><strong>Example 1:</strong></p>
-<figure data-type="image" tabindex="1"><img src="https://assets.leetcode.com/uploads/2020/02/20/frog_2.png" alt="img" loading="lazy"></figure>
-<pre><code>Input: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 2, target = 4
-Output: 0.16666666666666666 
-Explanation: The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 probability to the vertex 2 after second 1 and then jumping with 1/2 probability to vertex 4 after second 2. Thus the probability for the frog is on the vertex 4 after 2 seconds is 1/3 * 1/2 = 1/6 = 0.16666666666666666. 
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<p><strong><img src="https://assets.leetcode.com/uploads/2020/02/20/frog_3.png" alt="img" loading="lazy"></strong></p>
-<pre><code>Input: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 1, target = 7
-Output: 0.3333333333333333
-Explanation: The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 = 0.3333333333333333 probability to the vertex 7 after second 1. 
-</code></pre>
-<p><strong>Example 3:</strong></p>
-<pre><code>Input: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 20, target = 6
-Output: 0.16666666666666666
-</code></pre>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>1 &lt;= n &lt;= 100</code></li>
-<li><code>edges.length == n-1</code></li>
-<li><code>edges[i].length == 2</code></li>
-<li><code>1 &lt;= edges[i][0], edges[i][1] &lt;= n</code></li>
-<li><code>1 &lt;= t &lt;= 50</code></li>
-<li><code>1 &lt;= target &lt;= n</code></li>
-<li>Answers within <code>10^-5</code> of the actual value will be accepted as correct.</li>
-</ul>
-<hr>
-<pre><code class="language-c++">class Solution {
-public:
-    double frogPosition(int n, vector&lt;vector&lt;int&gt;&gt;&amp; edges, int t, int target) {
-        std::ios_base::sync_with_stdio(false);
-		cin.tie(NULL);
-		cout.tie(NULL);
-		//特殊情况，只有1个节点
-		if (edges.size() == 0) {
-			return 1;
-		}
-
-		vector&lt;vector&lt;int&gt;&gt; ground(n + 1); //无向图的邻接表表示
-		for (auto e : edges) {
-			int from = e[0];
-			int to = e[1];
-			ground[from].push_back(to);
-			ground[to].push_back(from);
-		}
-
-		vector&lt;int&gt; used(n + 1, -1); //记录节点是否被使用，同时记录跳跃的距离
-		vector&lt;int&gt; pre(n + 1, -1); //记录当前节点是从哪个节点跳跃过来
-		queue&lt;int&gt; q;
-		q.push(target);
-		used[target] = 0;
-
-		while (!q.empty()) {
-			int from = q.front(); q.pop();
-			for (int i = 0; i &lt; ground[from].size(); ++i) {
-				int tmp = ground[from][i];
-				if (used[tmp] == -1) {
-					q.push(tmp);
-					used[tmp] = used[from] + 1;
-					pre[tmp] = from;
-					if (tmp == 1) break;
-				}
-			}
-		}
-        //如果节点1和target不相连，或者最少跳跃的时间大于t，输出0
-		if (pre[1] == -1 || used[1] &gt; t) return 0;
-        //保存从节点1到taget的时间，因为used接下来会被初始化再利用
-		int pathLen = used[1];
-
-		long long sum = 1; //防止相乘出现溢出
-		int start = 1;
-		fill(used.begin(), used.end(), 0);
-
-		while (pre[start] != -1) {
-			used[start] = 1;
-			long long cnt = 0;
-			for (int i = 0; i &lt; ground[start].size(); ++i) {
-				int to = ground[start][i];
-				if (!used[to]) ++cnt;
-			}
-			sum *= cnt;
-			start = pre[start];
-		}
-        //pathLen != t意味着可能存在继续跳跃的可能
-        //检验是否存在从target还能继续跳到其他点
-		if (pathLen != t) {
-			for (int i = 0; i &lt; ground[target].size(); ++i) {
-				int to = ground[target][i];
-				if (!used[to]) return 0;
-			}
-		}
-
-		return 1.0 / sum;
-    }
-};
-</code></pre>
-<p>这道题虽然给的标签是DFS，但是我采用的是BFS来求解。</p>
-<p>这道题首先去明确题意，从节点<code>1</code>出发，到节点标记为<code>target</code>的点，从一个节点跳到另一个节点耗时1秒，问能否在规定的时间<code>t</code>内到达。容易引发错误的是跳跃规则的限制，首先已经经过的点是不能再跳了，另外，如果在时间<code>t</code>内已经到达<code>target</code>，但是已经没有其他的点可以继续跳跃了，那么就原地不动。后一个条件就容易引发错误，考虑这样一个例子：</p>
-<pre><code>n = 8, edges = [[1,2],[1,7],[1,4],[1,5],[7,8],[2,3],[4,6]], t = 20, target = 7
-Output: 0.0
-</code></pre>
-<p>这是因为第一步就可以跳到<code>target = 7</code>，这里只用了1秒，还未到时间<code>t</code>，所以还可以继续跳跃到节点8，无法再跳跃了，于是落在了节点8，不符合题目要求了。</p>
-<p>分析清楚了题意，那么问题的关键点就是最少需要跳多少步可以从节点1到节点<code>target</code>，所以很自然的联想到了BFS，但是还需要额外输出路径。这是因为我们最终要计算的是概率，不妨以第一个测试用例为例：</p>
-<figure data-type="image" tabindex="2"><img src="https://assets.leetcode.com/uploads/2020/02/20/frog_2.png" alt="img" loading="lazy"></figure>
-<pre><code>Input: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 1, target = 7
-Output: 0.3333333333333333
-</code></pre>
-<p>从节点1到节点<code>target = 4</code>，节点1的跳跃选择有3个，从节点2的跳跃选择有2个，所以最终结果就是<code>1/(2*3)=1/6</code>。可以发现，分母恰好是每一次跳跃时，当前节点的可以选择跳跃的节点个数，所以只有确切的知道整个跳跃过程经过了哪些点，才能够统计可以跳跃的节点个数。</p>
-<p>注意到给出的图是无向图，那么我们可以采用邻接表来表示图，用数组<code>used</code>来记录当前点是否被访问过，同时用来记录从出发点到终点的距离。在BFS过程中，可以从<code>target</code>出发找节点1，也可以从节点1出发找<code>target</code>，我选择是前一种。</p>
-<p>当得到节点1和<code>target</code>的距离<code>used[1]</code>后，我们用变量<code>pathLen</code>来存储这个数据。如果节点1和target不相连，或者最少跳跃的时间大于t，输出0；如果<code>used[1] &lt;= t</code>，就需要去处理达到<code>target</code>还可以继续跳跃的情况了，那么这时候就再次利用<code>used</code>数组，标记已经经过的点。用<code>sum</code>来记录最终结果的分母，注意防止溢出。</p>
 ]]></content>
     </entry>
 </feed>
