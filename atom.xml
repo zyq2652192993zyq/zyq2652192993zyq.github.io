@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zyq2652192993zyq.github.io/</id>
     <title>Kylin</title>
-    <updated>2020-05-10T08:22:58.844Z</updated>
+    <updated>2020-05-12T09:26:44.388Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zyq2652192993zyq.github.io/"/>
     <link rel="self" href="https://zyq2652192993zyq.github.io/atom.xml"/>
@@ -10,6 +10,105 @@
     <logo>https://zyq2652192993zyq.github.io/images/avatar.png</logo>
     <icon>https://zyq2652192993zyq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Kylin</rights>
+    <entry>
+        <title type="html"><![CDATA[一本通-1363：小球(drop)（满二叉树性质应用）]]></title>
+        <id>https://zyq2652192993zyq.github.io/post/yi-ben-tong-1363xiao-qiu-dropman-er-cha-shu-xing-zhi-ying-yong/</id>
+        <link href="https://zyq2652192993zyq.github.io/post/yi-ben-tong-1363xiao-qiu-dropman-er-cha-shu-xing-zhi-ying-yong/">
+        </link>
+        <updated>2020-05-12T09:25:45.000Z</updated>
+        <content type="html"><![CDATA[<p>【题目描述】<br>
+许多的小球一个一个的从一棵满二叉树上掉下来组成FBT（Full Binary Tree，满二叉树），每一时间，一个正在下降的球第一个访问的是非叶子节点。然后继续下降时，或者走右子树，或者走左子树，直到访问到叶子节点。决定球运动方向的是每个节点的布尔值。最初，所有的节点都是false，当访问到一个节点时，如果这个节点是false，则这个球把它变成true，然后从左子树走，继续它的旅程。如果节点是true，则球也会改变它为false，而接下来从右子树走。满二叉树的标记方法如下图:</p>
+<figure data-type="image" tabindex="1"><img src="http://ybt.ssoier.cn:8088/pic/1363.gif" alt="img" loading="lazy"></figure>
+<p>因为所有的节点最初为false，所以第一个球将会访问节点1，节点2和节点4，转变节点的布尔值后在在节点8停止。第二个球将会访问节点1、3、6,在节点12停止。明显地，第三个球在它停止之前，会访问节点1、2、5，在节点10停止。</p>
+<p>现在你的任务是，给定FBT的深度D，和I，表示第I个小球下落，你可以假定I不超过给定的FBT的叶子数，写一个程序求小球停止时的叶子序号。</p>
+<p>【输入】<br>
+一行包含两个用空格隔开的整数D和I。其中2≤D≤20，1≤I≤524288。</p>
+<p>【输出】<br>
+对应输出第I个小球下落停止时的叶子序号。</p>
+<p>【输入样例】<br>
+4 2</p>
+<p>【输出样例】<br>
+12</p>
+<hr>
+<p>这道题同时还是《算法竞赛入门经典》的6.3二叉树中的题目。</p>
+<p>首先来估算数据范围，其中深度最大是20，那么意味着节点的数目是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>20</mn></msup><mo>≈</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">2^{20}\approx 10^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span>，所以如果是模拟的化，开这么大的数组也是没问题的，由于每个小球都要走二叉树的深度的次数，所以时间复杂度是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>6</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup><mo>×</mo><mn>20</mn><mo>=</mo><mn>1.2</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">6 \times 10^ 6 \times 20 = 1.2 \times 10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span>，所以还是在时间限制范围内的。</p>
+<p>模拟的方法：由于题目指明是满二叉树，满二叉树一个很重要的性质是左右子节点和父节点存在对应关系，设父节点下标为<code>k</code>，左子节点下标为<code>2k</code>，右子节点下标为<code>2k+1</code>。</p>
+<pre><code class="language-c++">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+vector&lt;bool&gt; node(2 * 1e6, false);
+int n;
+
+int solve(int num)
+{
+	int curPos = 1, prePos = 1;
+	for (int i = 1; i &lt;= num; ++i) {
+		curPos = 1, prePos = 1;
+		while (curPos &lt;= n) {
+			if (node[curPos]) {
+				node[curPos] = false;
+				prePos = curPos;
+				curPos = curPos * 2 + 1;
+			}
+			else {
+				node[curPos] = true;
+				prePos = curPos;
+				curPos &lt;&lt;= 1;
+			}
+		}
+	}
+
+	return prePos;
+}
+
+int main()
+{
+	std::ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int depth, num; cin &gt;&gt; depth &gt;&gt; num;
+	n = (1 &lt;&lt; depth) - 1; //满二叉树全部节点的个数
+
+	cout &lt;&lt; solve(num) &lt;&lt; endl;
+
+	return 0;
+}
+
+</code></pre>
+<p>第二种方法：在《算法竞赛入门经典》里面，给出了一种很巧妙的实现，非常类似于约瑟夫环这种类型，往往存在着简单的解法。我们发现对于根节点，也就是标号为1的节点，它为<code>true</code>还是<code>false</code>只和奇偶有关，也就是第一个小球时是<code>false</code>，第三个小球是<code>false</code>。然后类似递归的去解决，比如标号为2的节点，很显然，只有标号为奇数的小球才会落在左子树2，然后我们对这些小球“重新编号”，那么第一个小球是1，第三个小球是2，相当于递归的去解决问题了。这样做的一个好处是根本不需要去开一个大数组去存储树上每个节点的状态，也不需要去做一些没有用处的模拟。另外如果是多组输入的情况下，很显然第二种方法更能节省时间。</p>
+<pre><code class="language-c++">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+
+
+int main()
+{
+	std::ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int depth, num;
+	cin &gt;&gt; depth &gt;&gt; num;
+
+	int k = 1;
+	for (int i = 0; i &lt; depth - 1; ++i) {
+		if (num &amp; 1) { //小球标号为奇数
+			k &lt;&lt;= 1; num = ((num + 1) &gt;&gt; 1);
+		}
+		else { //小球标号为偶数
+			k = k * 2 + 1; num &gt;&gt;= 1;
+		}
+	}
+	cout &lt;&lt; k &lt;&lt; endl;
+
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[1246.Palindrome Removal]]></title>
         <id>https://zyq2652192993zyq.github.io/post/1246palindrome-removal/</id>
@@ -778,156 +877,6 @@ public:
     	}
 
     	return maxVal;
-    }
-};
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1419.Minimum Number of Frogs Croaking]]></title>
-        <id>https://zyq2652192993zyq.github.io/post/1419minimum-number-of-frogs-croaking/</id>
-        <link href="https://zyq2652192993zyq.github.io/post/1419minimum-number-of-frogs-croaking/">
-        </link>
-        <updated>2020-04-28T11:11:15.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Medium</code> <code>String</code></p>
-<p>Links: https://leetcode.com/problems/minimum-number-of-frogs-croaking/</p>
-<hr>
-<p>Given the string <code>croakOfFrogs</code>, which represents a combination of the string &quot;croak&quot; from different frogs, that is, multiple frogs can croak at the same time, so multiple “croak” are mixed. <em>Return the minimum number of</em> different <em>frogs to finish all the croak in the given string.</em></p>
-<p>A valid &quot;croak&quot; means a frog is printing 5 letters ‘c’, ’r’, ’o’, ’a’, ’k’ <strong>sequentially</strong>. The frogs have to print all five l</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: croakOfFrogs = &quot;croakcroak&quot;
-Output: 1 
-Explanation: One frog yelling &quot;croak&quot; twice.
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: croakOfFrogs = &quot;crcoakroak&quot;
-Output: 2 
-Explanation: The minimum number of frogs is two. 
-The first frog could yell &quot;crcoakroak&quot;.
-The second frog could yell later &quot;crcoakroak&quot;.
-</code></pre>
-<p><strong>Example 3:</strong></p>
-<pre><code>Input: croakOfFrogs = &quot;croakcrook&quot;
-Output: -1
-Explanation: The given string is an invalid combination of &quot;croak&quot; from different frogs.
-</code></pre>
-<p><strong>Example 4:</strong></p>
-<pre><code>Input: croakOfFrogs = &quot;croakcroa&quot;
-Output: -1
-</code></pre>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>1 &lt;= croakOfFrogs.length &lt;= 10^5</code></li>
-<li>All characters in the string are: <code>'c'</code>, <code>'r'</code>, <code>'o'</code>, <code>'a'</code> or <code>'k'</code>.</li>
-</ul>
-<hr>
-<pre><code class="language-c++">class Solution {
-	unordered_map&lt;char, int&gt; um;
-public:
-    int minNumberOfFrogs(string croakOfFrogs) {
-    	std::ios_base::sync_with_stdio(false);
-    	cin.tie(NULL);
-    	cout.tie(NULL);
-
-    	um['c'] = 0; um['r'] = 1; um['o'] = 2; um['a'] = 3; um['k'] = 4;
-    	unordered_map&lt;int, stack&lt;string&gt;&gt; hashTable;
-    	int n = croakOfFrogs.size();
-
-    	for (int i = 0; i &lt; n; ++i) {
-    		if (croakOfFrogs[i] == 'c') {
-    			if (hashTable[4].empty()) hashTable[0].push(&quot;c&quot;);
-    			else {
-    				hashTable[4].top().push_back('c');
-    				hashTable[0].push(hashTable[4].top());
-    				hashTable[4].pop();
-    			}
-    		}
-    		else {
-    			char ch = croakOfFrogs[i];
-    			int k = um[ch] - 1;
-    			if (hashTable[k].empty()) return -1;
-    			else {
-    				hashTable[k].top().push_back(ch);
-    				hashTable[um[ch]].push(hashTable[k].top());
-    				hashTable[k].pop();
-    			}
-    		}
-    	}
-
-    	for (int i = 0; i &lt; 4; ++i) if (hashTable[i].size() != 0) return -1;
-
-    	return hashTable[4].size();
-    }
-};
-</code></pre>
-<p>这道题目最初的思路是利用递归去解决，比如题目里的样例：<code>crcoakroak</code></p>
-<p>利用一个字符串变量<code>s</code>保存合法的结果，<code>tmp</code>保存剩余的部分，运行规则就是：</p>
-<pre><code>crcoakroak
-cr 放入 s
-c 放入 tmp
-oak 放入 s
-roak 放入 tmp
-最后s = croak, tmp = croak
-首先检验s的长度是否是5的倍数，然后递归去处理tmp
-</code></pre>
-<p>这种思路符合人为处理的思路，但是考虑特殊情况，比如<code>ccccrrrrooooaaaakkkk</code>，每一次处理都需要把整个字符串遍历一次，数据范围是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span>，不出意外会超时。所以考虑对其进行优化。</p>
-<p>发现字符串的拼接规则其实之和对应字母的前一个字母有关，比如我处理到字符<code>r</code>，那么就应该把它拼接到任何一个以<code>c</code>结尾的字符串后面（如果这个字符串存在的话，不存在直接返回-1），那么如何描述这种前后拼接的关系？于是想到可以利用哈希表来将字符和数字进行映射，所以用<code>um</code>来建立这种映射关系。</p>
-<p>接着建立一个哈希表，键是以字符串结尾的字符对应的数字：</p>
-<pre><code>0 对应以c结尾的字符串
-1 对应以r结尾的字符串
-2 对应以o结尾的字符串
-3 对应以c结尾的字符串
-4 对应以k结尾的字符串
-</code></pre>
-<p>哈希表的值利用一个栈来存储以对应字符结尾的字符串。然后对题目中的样例来处理，展示算法的运行逻辑。</p>
-<p>比如<code>crcoakroak</code>：</p>
-<pre><code>处理'c'，发现0对应的栈为空，直接推入
-
-处理'r'，应该接到以'c'结尾的字符串后面，于是把最初的'c'后面拼接'r'，然后放入到键为1的栈内
-
-处理'c'，发现0对应的栈为空，直接推入
-
-处理'o'，应该接到以'r'结尾的字符串，于是取出1对应的栈内的字符串，放入2对应的栈内
-.....
-</code></pre>
-<p>最后需要先检验序号为0，1，2，3内的栈是否为空，不为空意味着还是存在有的字符串没有拼接，于是返回<code>-1</code>；如果都为空，那么就只需返回栈4内字符串的数量即可。</p>
-<p>看了大佬<code>wzc1995</code>的解答，发现其实还可以进一步优化程序，并不需要真正的完成字符串的拼接，完全可以用一个计数器来进行模拟。</p>
-<p>优化后的程序：</p>
-<pre><code class="language-c++">class Solution {
-	unordered_map&lt;char, int&gt; um;
-public:
-    int minNumberOfFrogs(string croakOfFrogs) {
-    	std::ios_base::sync_with_stdio(false);
-    	cin.tie(NULL);
-    	cout.tie(NULL);
-
-    	um['c'] = 0; um['r'] = 1; um['o'] = 2; um['a'] = 3; um['k'] = 4;
-    	unordered_map&lt;int, int&gt; hashTable;
-    	int n = croakOfFrogs.size();
-
-    	for (int i = 0; i &lt; n; ++i) {
-    		if (croakOfFrogs[i] == 'c') {
-    			if (hashTable[4] == 0) ++hashTable[0];
-    			else {
-    				++hashTable[0];
-    				--hashTable[4];
-    			}
-    		}
-    		else {
-    			char ch = croakOfFrogs[i];
-    			int k = um[ch] - 1;
-    			if (hashTable[k] == 0) return -1;
-    			else {
-    				++hashTable[um[ch]];
-    				--hashTable[k];
-    			}
-    		}
-    	}
-
-    	for (int i = 0; i &lt; 4; ++i) if (hashTable[i] != 0) return -1;
-
-    	return hashTable[4];
     }
 };
 </code></pre>
