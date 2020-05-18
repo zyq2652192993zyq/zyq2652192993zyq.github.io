@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>97.Interleaving String | Kylin</title>
+<title>1451.Rearrange Words in a Sentence | Kylin</title>
 <meta name="description" content="Talk is cheap, show me the code.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -92,65 +92,97 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">97.Interleaving String</h2>
-            <div class="post-date">2020-04-28</div>
+            <h2 class="post-title">1451.Rearrange Words in a Sentence</h2>
+            <div class="post-date">2020-05-18</div>
             
             <div class="post-content">
               <p><strong>文中提到的题目可在我GitHub的<a href="https://github.com/zyq2652192993zyq/LeetCode">LeetCode</a>, <a href="https://github.com/zyq2652192993zyq/SJTU-Online-Judge">SJTU OJ</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Algorithm%20Analysis">Algorithm Analysis</a>, <a href="https://github.com/zyq2652192993zyq/Advance-Algorithm/tree/master/Problem%20Solution">Problem Solution</a>找到解答。</strong></p>
-<p>Tags: <code>Hard</code> <code>Dynamic Programming</code></p>
-<p>Links: https://leetcode.com/problems/interleaving-string/</p>
+<p>Tags: <code>Medium</code> <code>String</code> <code>Sort</code></p>
+<p>Links: https://leetcode.com/problems/rearrange-words-in-a-sentence/</p>
 <hr>
-<p>Given <em>s1</em>, <em>s2</em>, <em>s3</em>, find whether <em>s3</em> is formed by the interleaving of <em>s1</em> and <em>s2</em>.</p>
+<p>Given a sentence <code>text</code> (A <em>sentence</em> is a string of space-separated words) in the following format:</p>
+<ul>
+<li>First letter is in upper case.</li>
+<li>Each word in <code>text</code> are separated by a single space.</li>
+</ul>
+<p>Your task is to rearrange the words in text such that all words are rearranged in an increasing order of their lengths. If two words have the same length, arrange them in their original order.</p>
+<p>Return the new text following the format shown above.</p>
 <p><strong>Example 1:</strong></p>
-<pre><code>Input: s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbcbcac&quot;
-Output: true
+<pre><code>Input: text = &quot;Leetcode is cool&quot;
+Output: &quot;Is cool leetcode&quot;
+Explanation: There are 3 words, &quot;Leetcode&quot; of length 8, &quot;is&quot; of length 2 and &quot;cool&quot; of length 4.
+Output is ordered by length and the new first word starts with capital letter.
 </code></pre>
 <p><strong>Example 2:</strong></p>
-<pre><code>Input: s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbbaccc&quot;
-Output: false
+<pre><code>Input: text = &quot;Keep calm and code on&quot;
+Output: &quot;On and keep calm code&quot;
+Explanation: Output is ordered as follows:
+&quot;On&quot; 2 letters.
+&quot;and&quot; 3 letters.
+&quot;keep&quot; 4 letters in case of tie order by position in original text.
+&quot;calm&quot; 4 letters.
+&quot;code&quot; 4 letters.
 </code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: text = &quot;To be or not to be&quot;
+Output: &quot;To be or to be not&quot;
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>text</code> begins with a capital letter and then contains lowercase letters and single space between words.</li>
+<li><code>1 &lt;= text.length &lt;= 10^5</code></li>
+</ul>
 <hr>
+<p>核心思路是字符串切割，如果说一定要找类似的话，那么HDU 1062 Text Reverse和UIUC的System Programming的Extreme_Edge_Cases Lab会有一定程度的接近。</p>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
 <pre><code class="language-c++">class Solution {
+	struct Node
+	{
+		string str;
+		int seq;
+		Node(string s, int num): str(s), seq(num) {}
+		bool operator&lt;(const Node &amp; obj) const 
+		{
+			return (str.size() &lt; obj.str.size()) 
+				|| (str.size() == obj.str.size() &amp;&amp; seq &lt; obj.seq);
+		}
+	};
+
 public:
-    bool isInterleave(string s1, string s2, string s3) {
-        std::ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
+    string arrangeWords(string text) {
+    	std::ios_base::sync_with_stdio(false);
+		cin.tie(NULL);
+		cout.tie(NULL);
 
-        int m = s1.size(), n = s2.size();
-        if (s3.size() != m + n) return false;
+		text[0] = tolower(text[0]);
+		vector&lt;Node&gt; word;
+		split(text, word);
+		sort(word.begin(), word.end());
+		string res;
 
-        vector&lt;vector&lt;bool&gt;&gt; d(m + 1, vector&lt;bool&gt;(n + 1));
-        d[0][0] = true;
-        for (int i = 1; i &lt;= m; ++i) {
-            if (s1[i - 1] == s3[i - 1]) d[i][0] = true;
-            else break;
-        }
+		int n = word.size();
+		word[0].str[0] = toupper(word[0].str[0]);
+		for (int i = 0; i &lt; n; ++i) {
+			res += word[i].str;
+			if (i != n - 1) res.push_back(' ');
+		}
 
-        for (int i = 1; i &lt;= n; ++i) {
-            if (s2[i - 1] == s3[i - 1]) d[0][i] = true;
-            else break;
-        }
+		return res;
+    }
 
-        for (int i = 1; i &lt;= m; ++i) {
-            for (int j = 1; j &lt;= n; ++j) {
-                d[i][j] = (s1[i - 1] == s3[i + j - 1] &amp;&amp; d[i - 1][j]) 
-                	|| (s2[j - 1] == s3[i + j - 1] &amp;&amp; d[i][j - 1]);
-            }
-        }
-
-        return d[m][n];
+    void split(string &amp; text, vector&lt;Node&gt; &amp; word)
+    {
+    	int cnt = 1;
+    	int loc = 0;
+    	while (text.find(&quot; &quot;, loc) != string::npos) {
+    		int pos = text.find(&quot; &quot;, loc);
+    		word.push_back(Node(text.substr(loc, pos - loc), cnt++));
+    		loc = pos + 1;
+    	}
+    	word.push_back(Node(text.substr(loc), cnt));
     }
 };
 </code></pre>
-<p>首先如果交错构成的，则必有<code>s3</code>长度等于<code>s1</code>和<code>s2</code>的长度和。另外尤其需要注意的就是顺序问题，考虑这样一个例子：</p>
-<pre><code>s3 = bbac
-s1 = ab
-s2 = bc
-</code></pre>
-<p>虽然<code>s1</code>和<code>s2</code>的字符在<code>s3</code>里都存在，但是违背了顺序关系。</p>
-<p>其实这道题和编辑距离还是很接近的，用<code>d[i][j]</code>表示<code>s1</code>的前<code>i</code>个字符和<code>s2</code>的前<code>j</code>个字符能否和<code>s3</code>的前<code>i+j</code>个字符完成匹配。首先就是初始化问题，<code>d[0][0]</code>显然为<code>true</code>，另外初始化当<code>s1</code>为空和<code>s2</code>为空的情况。</p>
-<p>假如<code>s1[i - 1]</code>和<code>s3[i+j-1]</code>完成匹配，那么意味着<code>s1</code>前<code>i-1</code>个和<code>s2</code>前<code>j</code>个字符要和<code>s3</code>前<code>i+j-1</code>个字符完成匹配，或者<code>s2[j -1] == s3[i + j - 1]</code>，则需要<code>s1</code>前<code>i</code>个和<code>s2</code>前<code>j-1</code>个匹配。两者中只要有一个满足即可，所以用或的关系。</p>
 
             </div>
             
@@ -165,9 +197,9 @@ s2 = bc
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://zyq2652192993zyq.github.io/post/ji-suan-ji-he-zui-jin-dian-dui/">
+                <a href="https://zyq2652192993zyq.github.io/post/1452people-whose-list-of-favorite-companies-is-not-a-subset-of-another-list/">
                   <h3 class="post-title">
-                     计算几何——最近点对
+                    1452.People Whose List of Favorite Companies Is Not a Subset of Another List
                   </h3>
                 </a>
               </div>
